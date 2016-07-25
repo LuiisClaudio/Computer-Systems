@@ -388,7 +388,7 @@ int main (int argc, char *argv[])
             qsort(vPpid, num, sizeof(tpPrioridade), compara);
             
             for(i=0;i<num;i++) {
-                printf("Continuando processo de pid %d\n", vPpid[i].pid);
+                printf("Continuando processo de pid %d PRIORIDADE: %d\n", vPpid[i].pid, vPpid[i].prioridade);
                 fprintf(fd3, "Continuando processo de pid %d\n", vPpid[i].pid);
                 kill(vPpid[i].pid, SIGCONT);
                 waitpid(vPpid[i].pid, 0, 0);

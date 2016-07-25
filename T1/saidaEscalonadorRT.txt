@@ -3,66 +3,41 @@ RTLeitura feita
 nome: dorminhoco
 inicio: 0
 duracao: 15
-vpid[0]= 4367
-vpid[1]= 4367
-vpid[2]= 4367
-vpid[3]= 4367
-vpid[4]= 4367
-vpid[5]= 4367
-vpid[6]= 4367
-vpid[7]= 4367
-vpid[8]= 4367
-vpid[9]= 4367
-vpid[10]= 4367
-vpid[11]= 4367
-vpid[12]= 4367
-vpid[13]= 4367
-vpid[14]= 4367
-Aguardando o interpretador preencher o comando
-Aguardando o interpretador preencher o comando
-Aguardando o interpretador preencher o comando
-Aguardando o interpretador preencher o comando
-Aguardando o interpretador preencher o comando
-Aguardando o interpretador preencher o comando
-Aguardando o interpretador preencher o comando
-
-RTLeitura feita
-nome: dorminhoco
-inicio: 2
-duracao: 15
-Tempo de operacao do programa coincide com outro ou intervalo invalido.
-Programa abortado.
-
-RTLeitura feita
-nome: dorminhoco
-inicio: 20
-duracao: 15
-vpid[20]= 4376
-vpid[21]= 4376
-vpid[22]= 4376
-vpid[23]= 4376
-vpid[24]= 4376
-vpid[25]= 4376
-vpid[26]= 4376
-vpid[27]= 4376
-vpid[28]= 4376
-vpid[29]= 4376
-vpid[30]= 4376
-vpid[31]= 4376
-vpid[32]= 4376
-vpid[33]= 4376
-vpid[34]= 4376
+vpid[0]= 4806
+vpid[1]= 4806
+vpid[2]= 4806
+vpid[3]= 4806
+vpid[4]= 4806
+vpid[5]= 4806
+vpid[6]= 4806
+vpid[7]= 4806
+vpid[8]= 4806
+vpid[9]= 4806
+vpid[10]= 4806
+vpid[11]= 4806
+vpid[12]= 4806
+vpid[13]= 4806
+vpid[14]= 4806
 
 Iniciando escalonamento dos processos:
 
-Horario no relogio: 4 segundos
-Pausando processo 4367 aos 15 segundos.
-Nao ha processo comecando aos 16 segundos.
-Nao ha processo comecando aos 17 segundos.
-Nao ha processo comecando aos 18 segundos.
-Nao ha processo comecando aos 19 segundos.
-Continuando processo 4376 aos 20 segundos durante 15 segundos.
-Processo de pid 4376 terminou. Removendo da lista.
+Horario no relogio: 20 segundos
+Nao ha processo comecando aos 20 segundos.
+Nao ha processo comecando aos 21 segundos.
+Nao ha processo comecando aos 22 segundos.
+Nao ha processo comecando aos 23 segundos.
+Nao ha processo comecando aos 24 segundos.
+Nao ha processo comecando aos 25 segundos.
+Nao ha processo comecando aos 26 segundos.
+Nao ha processo comecando aos 27 segundos.
+Nao ha processo comecando aos 28 segundos.
+Nao ha processo comecando aos 29 segundos.
+Nao ha processo comecando aos 30 segundos.
+Nao ha processo comecando aos 31 segundos.
+Nao ha processo comecando aos 32 segundos.
+Nao ha processo comecando aos 33 segundos.
+Nao ha processo comecando aos 34 segundos.
+Nao ha processo comecando aos 35 segundos.
 Nao ha processo comecando aos 36 segundos.
 Nao ha processo comecando aos 37 segundos.
 Nao ha processo comecando aos 38 segundos.
@@ -87,6 +62,6 @@ Nao ha processo comecando aos 56 segundos.
 Nao ha processo comecando aos 57 segundos.
 Nao ha processo comecando aos 58 segundos.
 Nao ha processo comecando aos 59 segundos.
-Continuando processo 4367 aos 0 segundos durante 15 segundos.
-Processo de pid 4367 terminou. Removendo da lista.
+Continuando processo 4806 aos 0 segundos durante 15 segundos.
+Processo de pid 4806 terminou. Removendo da lista.
 Fim do escalonamento.
