@@ -2,18 +2,34 @@
 PR Leitura 1 feita
 nome: dorminhoco
 prioridade: 5
-vPpid[0].pid= 1314
+vPpid[0].pid= 4369
 vPpid[0].prioridade = 5
 
 PR Leitura 2 feita
 nome: dorminhoco
 prioridade: 3
-vPpid[1].pid= 1315
+vPpid[1].pid= 4371
 vPpid[1].prioridade = 3
+
+PR Leitura 3 feita
+nome: dorminhoco
+prioridade: 4
+vPpid[2].pid= 4373
+vPpid[2].prioridade = 4
+
+PR Leitura 4 feita
+nome: dorminhoco
+prioridade: 1
+vPpid[3].pid= 4375
+vPpid[3].prioridade = 1
 
 Iniciando escalonamento dos processos:
 
-Continuando processo de pid 1315
-Processo de pid 1315 terminou
-Continuando processo de pid 1314
-Processo de pid 1314 terminou
+Continuando processo de pid 4375
+Processo de pid 4375 terminou
+Continuando processo de pid 4371
+Processo de pid 4371 terminou
+Continuando processo de pid 4373
+Processo de pid 4373 terminou
+Continuando processo de pid 4369
+Processo de pid 4369 terminou

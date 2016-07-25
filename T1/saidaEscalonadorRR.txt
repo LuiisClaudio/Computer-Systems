@@ -2,33 +2,88 @@
  RR Leitura 1 feita
 nome: dorminhoco
 
-vpid[0]= 1313
+vpid[0]= 4368
+
+ RR Leitura 2 feita
+nome: dorminhoco
+
+vpid[1]= 4370
+
+ RR Leitura 3 feita
+nome: dorminhoco
+
+vpid[2]= 4372
+
+ RR Leitura 4 feita
+nome: dorminhoco
+
+vpid[3]= 4374
 
 Iniciando escalonamento dos processos:
 
 Iniciando escalonador RR
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Pausando processo de pid 1313
-Continuando processo de pid 1313
-Processo de pid 1313 terminou
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Pausando processo de pid 4368
+Continuando processo de pid 4370
+Pausando processo de pid 4370
+Continuando processo de pid 4372
+Pausando processo de pid 4372
+Continuando processo de pid 4374
+Pausando processo de pid 4374
+Continuando processo de pid 4368
+Processo de pid 4368 terminou
+Continuando processo de pid 4370
+Processo de pid 4370 terminou
+Continuando processo de pid 4372
+Processo de pid 4372 terminou
+Continuando processo de pid 4374
+Processo de pid 4374 terminou
 Fim do escalonamento.

@@ -3,3 +3,9 @@ Exec dorminhoco
 Exec dorminhoco PR=5
 Exec dorminhoco
 Exec dorminhoco PR=3
+Exec dorminhoco
+Exec dorminhoco PR=4
+Exec dorminhoco
+Exec dorminhoco PR=1
+Exec dorminhoco I=2 D=15
+Exec dorminhoco I=20 D=15

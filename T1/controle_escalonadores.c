@@ -44,6 +44,7 @@ int main (int argc, char *argv[])
     seg = shmget(IPC_PRIVATE, sizeof(int), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
     //Flag usada para saber quem deve ser escalonado
     flag_escalonador = (int*) shmat(seg, 0, 0);
+    *flag_escalonador = 0;
 
     //Controlar o tempo ocupado pelo escalonador Real Timing
     seg_segundos = shmget(IPC_PRIVATE, sizeof(int)*60, 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
@@ -196,6 +197,7 @@ int main (int argc, char *argv[])
                 free(linha);
             }
         }
+        sleep(1);//Para sincronizar os escalonamentos
         printf("\nIniciando escalonamento dos processos:\n\n");
         fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
         
@@ -261,12 +263,13 @@ int main (int argc, char *argv[])
             {
                 *flag_escalonador = *flag_escalonador & 0xEF; //1110 1111
                 *flag_escalonador = *flag_escalonador | 0x1;
+                break;
                 
             }
             sleep(1);
         }
         
-        printf("Fim do escalonamento.\n");
+        printf("FIM DO ESCALONAMENTO REAL TIMING\n");
         fprintf(fd3, "Fim do escalonamento.\n");
         
         fclose(fd3);
@@ -373,6 +376,8 @@ int main (int argc, char *argv[])
                     free(linha);
                 }
             }
+            //Esperando todos os processos lerem o interpretador
+            sleep(1);
             printf("\nIniciando escalonamento dos processos:\n\n");
             fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
             
@@ -394,6 +399,7 @@ int main (int argc, char *argv[])
             *flag_escalonador = *flag_escalonador | 0x2;
 
             fclose(fd3);
+            printf("FIM DO ESCALONAMENTO PRIORIDADE\n");
             return 0;
             //FimEscalonadorPR
         }
@@ -490,6 +496,8 @@ int main (int argc, char *argv[])
                         free(linha);
                     }
                 }
+                //Esperando todos os processos lerem o interpretador
+                sleep(1);
                 printf("\nIniciando escalonamento dos processos:\n\n");
                 fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
                 
@@ -530,7 +538,7 @@ int main (int argc, char *argv[])
 
                 *flag_escalonador = *flag_escalonador & 0xBF; //1011 1111
                 *flag_escalonador = *flag_escalonador | 0x4;
-                printf("Fim do escalonamento.\n");
+                printf("FIM DO ESCALONAMENTO ROBIN\n");
                 fprintf(fd3, "Fim do escalonamento.\n");
                 
                 fclose(fd3);
@@ -544,10 +552,17 @@ int main (int argc, char *argv[])
                 char *token = strtok(str_aux, " ");
                 //VaiProPai
                 //kill(pid1, SIGCONT);
+
+                //while para garantir que todos os processos leiam as linhas do exec.txt
+                while(strcmp(mensagem, FIM) != 0 ) 
+                {
+                    printf("Lendo as linhas do interpretador\n");
+                }
+
                 kill(pid1, SIGSTOP);
 				kill(pid2, SIGSTOP);
 				kill(pid3, SIGSTOP);
-                *flag_escalonador = 0;
+                //*flag_escalonador = *flag_escalonador | 0;
 
                 int conta_segundos = 0;
                 while(1)
@@ -562,7 +577,7 @@ int main (int argc, char *argv[])
                         break;
                     } 
                     sleep(1);
-                    printf("\tFlag: %d, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
+                    printf("\tFlag: %x, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
    
                     // Keep printing tokens while one of the
                     // delimiters present in str[].
@@ -584,7 +599,7 @@ int main (int argc, char *argv[])
                 
                     if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
                     {
-                        //printf("--->RT\n");
+                        printf("--->RT\n");
                         //Matar o PR e RR
                         kill(pid2, SIGSTOP);
                         kill(pid1, SIGCONT);
