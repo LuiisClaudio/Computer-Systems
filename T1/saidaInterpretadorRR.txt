@@ -1,0 +1,17 @@
+Comando obtido. Comando:
+Exec dorminhoco
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec infinito
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec durabastante
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec dorminhoco
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec teste_mmq
+Aguardando o escalonador limpar o comando
+Fim do interpretador.
