@@ -21,7 +21,7 @@ int main (int argc, char *argv[])
   
   printf("Criando areas de memoria\n");
   //Criando a área de memória compartilhada
-  segmentomsg = shmget(123, 200*sizeof(char), IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+  segmentomsg = shmget(123, 200*sizeof(char), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
   printf("shmID = %d\n", segmentomsg);
   if(segmentomsg < 0)
   {
@@ -31,10 +31,11 @@ int main (int argc, char *argv[])
   //Associando as área às variáveis pid e i
   comando = (char*) shmat(segmentomsg, 0, 0);
   strcpy(comando, VAZIO);
-  if(comando < 0){
+  if(comando < 0)
+  {
         printf("Falha no attach");
         exit(1);
-    }
+  }
   
   //Abre os arquivos lista de execucao e saida para todos
   //Não usaremos O_TRUNC neste, pois perderia nosso arquivo.

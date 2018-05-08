@@ -26,9 +26,19 @@ int main (int argc, char *argv[])
   
   printf("Pegando area de memoria\n");
   //Criando as áreas de memória compartilhada
-  segmentomsg = shmget(123, 200*sizeof(char), IPC_EXCL | S_IRUSR | S_IWUSR);
-  
+  segmentomsg = shmget(123, 200*sizeof(char), 0666 | IPC_CREAT);//IPC_EXCL | S_IRUSR | S_IWUSR);
+  if(segmentomsg < 0)
+  {
+      printf("Failed to create shm\n");
+      exit(1);
+  }
+
   mensagem = (char*) shmat(segmentomsg, 0, 0);
+  if(mensagem < 0)
+  {
+        printf("Falha no attach");
+        exit(1);
+  }
   
   //Real Time - colocar todos os pids como -1, como se não houvesse
   //processo para ser executado naquele segundo
@@ -83,6 +93,7 @@ int main (int argc, char *argv[])
         break;
       }
     }
+    //return 0;
     if ( skip == 0 && !(pid = fork()) ) {
       //Processo filho
       //Redirecionar a entrada do filho para a entrada

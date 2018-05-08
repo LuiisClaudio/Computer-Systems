@@ -25,7 +25,7 @@ int main (int argc, char *argv[])
   
   printf("Pegando area de memoria\n");
   //Criando as áreas de memória compartilhada
-  segmentomsg = shmget(1111, 200*sizeof(char), IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+  segmentomsg = shmget(123, 200*sizeof(char), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
   
   mensagem = (char*) shmat(segmentomsg, 0, 0);
   
