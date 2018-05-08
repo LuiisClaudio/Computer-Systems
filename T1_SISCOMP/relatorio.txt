@@ -1,0 +1,72 @@
+Alunos:
+Leonardo Lages de Alencar - 1411485
+Luís Fernando Teixeira Bicalho - 1413121
+
+Os programas executados serão os programas "dorminhoco", "durabastante", "infinito" e "teste_mmq". Para compilá-los, são usadas as seguintes linhas de comando:
+gcc -o dorminhoco dorminhoco.c
+gcc -o durabastante durabastante.c
+gcc -o infinito infinito.c
+gcc -o teste_mmq teste_mmq.c mmq.c gauss.c matriz.c -lm
+
+O programa "dorminhoco" é IO-bound, pois está constantemente recebendo uma entrada e, após dormir um tempo, utiliza a informação dada na entrada como saída. Ele também possui um arquivo de entrada, denominado "dorminhocoentrada.txt".
+O programa "durabastante" é um programa que dura aproximadamente 50 segundos e simplesmente escreve uma mensagem com um intervalo de 1 segundo.
+O programa "infinito" é, como o nome diz, infinito, e escreve uma mensagem com intervalos de 1 segundo.
+O programa "teste_mmq" não possui saída nem entrada. Ele é um programa que roda infinitamente e com um pequeno intervalo(0.5 segundos), calculando valores, portanto é CPU-bound.
+
+Para a compilação do interpretador e dos escalonadores, serão utilizados os seguintes comandos:
+gcc -o interpretador interpretador.c
+gcc -o escalonadorRR escalonadorRR.c
+gcc -o escalonadorPR escalonadorPR.c
+gcc -o escalonadorRT escalonadorRT.c
+
+Existem 3 arquivos de exec.txt com os nomes referentes aos escalonadores(RR - Round Robin, PR - Prioridade, RT - Real Time).
+O interpretador lerá apenas o arquivo que estiver nomeado "exec.txt", ou seja, basta renomear o arquivo desejado e rodar o interpretador.
+Para rodar o interpretador e o escalonador há 2 opções:
+1 - rodar o interpretador em background
+2 - abrir 2 terminais, um para o interpretador e outro para o escalonador
+Como ambos os programas escrevem mensagens na tela, a segunda opção separa bem o funcionamento de cada um deles ao informarem o que estão fazendo.
+Além de exibir na tela a ação que estão realizando, tanto o interpretador quanto os escalonadores escrevem um arquivo de log de saída. O nome do arquivo é "saida"<programa><tipo>, sendo <programa> "escalonador" ou "interpretador" e <tipo> apenas para escalonadores, variando entre RR, PR, e RT.
+Adicionalmente, todos os escalonadores abrem um arquivo de entrada para os programas a serem executados, para caso necessitem do mesmo. A entrada dos programas é redirecionada para o arquivo e a saída para o arquivo "saida.txt".
+Apesar de haver o escalonamento, a ordem de escrita no arquivo "saida.txt" não reflete o mesmo, pois os programas só gravam no arquivo as informações que tiveram de saída após terminarem. Sendo assim, no arquivo "saida.txt", a ordem de escrita é com base em qual programa terminou primeiro.
+
+Para o escalonador de Round Robin, foi utilizada uma fatia de tempo de 1 segundo. Sendo assim, os programas alternam entre si exatamente na ordem que estão no arquivo "exec.txt".
+Para o escalonador de Prioridade, a ordem de execução é dada após organizar a lista de programas por prioridade. Assim, o programa com maior prioridade(sendo 1 a maior e 7 a menor) irá rodar primeiro. Apenas quando este terminar será continuado o seguinte.
+Para o escalonador de Real Time, preenche-se um vetor de 60 posições com pids, representando assim o início do programa e a duração do mesmo. Caso haja ou conflito de intervalo com um programa já existente, o novo será descartado, assim como se a soma do inicio com a duração for maior que 60.
+
+Para os exemplos de exec.txt dados, nos arquivos enviados em anexo temos uma saída para cada instância do interpretador, uma saída de cada escalonador e a saída final de cada um dos escalonadores.
+Por termos programas infinitos, nem todos os escalonadores terminarão seu processamento, tendo de ser cancelados pelo comando Ctrl+C.
+
+No exemplo do escalonador de Prioridade, foram utilizados os programas "dorminhoco" e "durabastante". Na ordem do arquivo, temos:
+dorminhoco - prioridade 5
+durabastante - prioridade 6
+dorminhoco - prioridade 1
+dorminhoco - prioridade 2
+dorminhoco - prioridade 7
+durabastante - prioridade 4
+dorminhoco - prioridade 2
+
+Após a ordenação, temos, em ordem de execução:
+dorminhoco - dorminhoco - dorminhoco - durabastante - dorminhoco - durabastante - dorminhoco
+Por ser ordem de prioridade, não temos problema de ordem errada no saida.txt e podemos verificar que a execução está correta também seguindo o log do escalonador comparando os pids informados no começo com a ordem de pid executada.
+
+No exemplo do escalonador de Round Robin, foram utilizados os programas "dorminhoco", "durabastante", "infinito" e "teste_mmq". Pela ordem do arquivo:
+dorminhoco - infinito - durabastante - dorminhoco - teste_mmq
+Os programas foram executados corretamente nesta ordem e, ao terminarem, eram retirados da lista. O único "problema" é com relação aos programas infinitos, pois como citado antes, ao causar uma interrupção, as informações que eles deveriam gravar não ficam no arquivo de saida.
+Ao terminar o "durabastante", foi lançada uma interrupção, pois o escalonador ficaria infinitamente alternando entre "infinito" e "teste_mmq".
+
+No exemplo do escalonador de Real Time, foram utilizados os programas "dorminhoco", "durabastante", "infinito" e "teste_mmq". No arquivo temos:
+dorminhoco I=0 D=10
+infinito I=10 D=10
+teste_mmq I=50 D=5
+durabastante I=4 D=13
+durabastante I=57 D=10
+durabastante I=20 D=10
+dorminhoco I=40 D=15
+dorminhoco I=40 D=10
+Observando os intervalos, vemos que:
+durabastante I=4 D=13 não será executado, pois entra em conflito com dorminhoco(1)
+durabastante I=57 D=10 não será executado, pois o intervalo é inválido
+dorminhoco I=40 D=15 não será executado, pois entra em conflito com teste_mmq
+
+Sendo assim, os processos resultantes e intervalos estão corretamente representados pelo Real Time. Caso o horário inicial de execução(tempo no relógio) seja um intervalo no meio da execução de um programa, este mesmo não será executado, pois a informação que temos é que o programa deve iniciar em I=X e executar durante D=Y segundos, portanto em um intervalo no meio disso ele não deveria ser iniciado.
+Novamente, como utilizamos programas de execução infinita, foi lançada uma interrupção ao terminar o minuto do último programa ainda finito.

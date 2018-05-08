@@ -1,3 +1,2 @@
 Exec dorminhoco I=1 D=20
-Exec dorminhoco I=30 D=15
-Exec dorminhoco PR=2
+Exec dorminhoco PR=5

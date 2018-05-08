@@ -1,0 +1,3 @@
+
+Iniciando escalonamento dos processos:
+

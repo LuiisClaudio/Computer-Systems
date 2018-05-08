@@ -1,0 +1,5 @@
+Exec dorminhoco
+Exec infinito
+Exec durabastante
+Exec dorminhoco
+Exec teste_mmq

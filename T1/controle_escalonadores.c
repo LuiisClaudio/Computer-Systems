@@ -9,6 +9,7 @@
 #include <math.h>
 #include <sys/types.h>
 #include <time.h>
+#include <assert.h>
 
 #define VAZIO ""
 #define FIM "fim"
@@ -33,12 +34,23 @@ int main (int argc, char *argv[])
     int segmentomsg, pid1, pid2, pid3;
     char *mensagem;
     int seg, *flag_escalonador;
+    int seg_segundos, *controle_tempo;
 
 
     printf("Criando areas de memoria\n");
     //Criando a área de memória compartilhada
+
     seg = shmget(IPC_PRIVATE, sizeof(int), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    //Flag usada para saber quem deve ser escalonado
     flag_escalonador = (int*) shmat(seg, 0, 0);
+
+    //Controlar o tempo ocupado pelo escalonador Real Timing
+    seg_segundos = shmget(IPC_PRIVATE, sizeof(int)*60, 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    controle_tempo = (int*) shmat(seg_segundos, 0, 0);
+    for(int tempo = 0; tempo < 60; tempo++)
+    {
+        controle_tempo[tempo] = 0;
+    }
 
 
     segmentomsg = shmget(123, SIZE_SEG*sizeof(char), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
@@ -81,7 +93,8 @@ int main (int argc, char *argv[])
         }
         
         //Enquanto ainda houverem linhas para serem lidas...
-        while( strcmp(mensagem, FIM) != 0 ) {
+        while(words(mensagem) == 4)//strcmp(mensagem, FIM) != 0 ) 
+        {
             while( strcmp(mensagem, VAZIO) == 0) 
             {
                 printf("Aguardando o interpretador preencher o comando\n");
@@ -119,60 +132,62 @@ int main (int argc, char *argv[])
             fim=inicio+fim-1;
             //printf("Aqui 1");
             if (fim > 60)
-            skip++;
+                skip++;
             //printf("Aqui 2");
             for(i=inicio;i<=fim;i++) {
-            if(vpid[i]!=-1) {
-                skip++;
-                break;
-            }
+                if(vpid[i]!=-1) {
+                    skip++;
+                    break;
+                }
             }    
         
             //printf("\n222\n");//@@@    
             //return 0; //tirar depis ###
             if ( skip == 0 && !(pid = fork()) ) {
-            //Processo filho
-            //Redirecionar a entrada do filho para a entrada
-            //do programa a ser executado. O nome do arquivo
-            //de entrada é sempre "(nomeDoPrograma)entrada.txt"
-            strcpy(comando, linha[0]);
-            strcat(comando, "entrada.txt");
-            //Com o nome do arquivo, podemos abri-lo e redirecionar
-            //a entrada.
-            if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
-                perror("Error open() fd1\n");
-                exit(-1);
-            }
-            if (dup2(fd1,0) == -1) {
-                perror("Erro dup2 fd1\n");
-                exit(-4);
-            }
-            if (dup2(fd2,1) == -1) {
-                perror("Erro dup2 fd2\n");
-                exit(-5);
-            }
-            //Agora já redirecionamos a entrada do novo programa,
-            //podemos colocá-lo para rodar.
-            strcpy(comando,"./");
-            strcat(comando, linha[0]);
-            raise(SIGSTOP);
-            execve(comando, commands, 0);
+                //Processo filho
+                //Redirecionar a entrada do filho para a entrada
+                //do programa a ser executado. O nome do arquivo
+                //de entrada é sempre "(nomeDoPrograma)entrada.txt"
+                strcpy(comando, linha[0]);
+                strcat(comando, "entrada.txt");
+                //Com o nome do arquivo, podemos abri-lo e redirecionar
+                //a entrada.
+                if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
+                    perror("Error open() fd1\n");
+                    exit(-1);
+                }
+                if (dup2(fd1,0) == -1) {
+                    perror("Erro dup2 fd1\n");
+                    exit(-4);
+                }
+                if (dup2(fd2,1) == -1) {
+                    perror("Erro dup2 fd2\n");
+                    exit(-5);
+                }
+                //Agora já redirecionamos a entrada do novo programa,
+                //podemos colocá-lo para rodar.
+                strcpy(comando,"./");
+                strcat(comando, linha[0]);
+                raise(SIGSTOP);
+                execve(comando, commands, 0);
             }
             else if (skip == 0) {
-            //Por ser RT, devemos guardar o pid do processo em cada
-            //segundo que ele deve estar executando.
-            for(i=inicio;i<=fim;i++) {
-                vpid[i]=pid;
-                printf("vpid[%d]= %d\n", i, pid);
-                fprintf(fd3, "vpid[%d]= %d\n", i, pid);
-            }
-            //Intervalo de 1 segundo entre cada processo.
-            sleep(1);
+                //Por ser RT, devemos guardar o pid do processo em cada
+                //segundo que ele deve estar executando.
+                for(i=inicio;i<=fim;i++) {
+                    vpid[i]=pid;
+                    //Nao pode escalonar nesse instante
+                    controle_tempo[i] = TRUE;
+                    printf("vpid[%d]= %d\n", i, pid);
+                    fprintf(fd3, "vpid[%d]= %d\n", i, pid);
+                }
+                //Intervalo de 1 segundo entre cada processo.
+                sleep(1);
             }
             else {
-            printf("Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
-            fprintf(fd3, "Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
-            sleep(1);
+                printf("Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
+                fprintf(fd3, "Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
+                sleep(1);
             }
             for(i=0;i<quantidadeParametros;i++)
             free(linha[i]);
@@ -194,10 +209,6 @@ int main (int argc, char *argv[])
         for(i=i%60;i<60;i++) 
         {
             //printf("\tProgramas executando: %d\n", programasExecutando);
-            if(programasExecutando == 0)
-            {
-                break;
-            }
             anterior = vpid[abs(i+59)%60];
             if (vpid[i] != anterior && anterior != -1) {
                 if (waitpid(anterior, 0, 0 | WNOHANG) != 0) {
@@ -205,7 +216,10 @@ int main (int argc, char *argv[])
                     printf("Processo de pid %d terminou. Removendo da lista.\n", anterior);
                     fprintf(fd3, "Processo de pid %d terminou. Removendo da lista.\n", anterior);
                     for(j=abs(i+59)%60;j>=0 && vpid[j] == anterior;j--)
-                    vpid[j] = -1;
+                    {
+                        vpid[j] = -1;
+                        controle_tempo[j] = 0;
+                    }
                 }
                 else 
                 {
@@ -241,8 +255,12 @@ int main (int argc, char *argv[])
                 i=-1;
                 programasExecutando = 0;
             }
-            else if (i==59 && programasExecutando == 0)
-                break;
+            //else if (i==59 && programasExecutando == 0)
+            else if(programasExecutando == 0)
+            {
+                *flag_escalonador = 2;
+                //break;
+            }
             sleep(1);
         }
         
@@ -504,6 +522,9 @@ int main (int argc, char *argv[])
             }
             else
             {
+                char str_aux[200];
+                strcpy(str_aux, mensagem);
+                char *token = strtok(str_aux, " ");
                 //VaiProPai
                 //kill(pid1, SIGCONT);
                 kill(pid1, SIGSTOP);
@@ -511,6 +532,7 @@ int main (int argc, char *argv[])
 				kill(pid3, SIGSTOP);
                 *flag_escalonador = -1;
 
+                int conta_segundos = 0;
                 while(1)
                 {
                     //kill(pid1, SIGCONT);
@@ -520,18 +542,31 @@ int main (int argc, char *argv[])
                     //kill(pid1, SIGCONT);
                     sleep(1);
                     printf("\tFlag: %d, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
-                    if(words(mensagem) == 4)// && *flag_escalonador == -1)
+   
+                    // Keep printing tokens while one of the
+                    // delimiters present in str[].
+                    while (token != NULL)
+                    {
+                        printf("%s\n", token);
+                        token = strtok(NULL, " ");
+                    }
+                    if(controle_tempo[time(0)%60] == TRUE)
+                        printf("Ocupado %d\n", time(0)%60);
+                    else
+                        printf("Livre %d\n", time(0)%60);
+                    
+                    if(words(mensagem) == 4  && *flag_escalonador != 2)
                     {
                         //Matar o PR e RR
                         kill(pid2, SIGSTOP);
                         kill(pid3, SIGSTOP);
                         kill(pid1, SIGCONT);
                     }
-                    else if(words(mensagem) == 3 && (*flag_escalonador == 2 || *flag_escalonador == -1)) 
+                    else if(*flag_escalonador == 2 ) 
                     {
                         kill(pid1, SIGSTOP);
                         kill(pid3, SIGSTOP);
-                        kill(pid2, SIGCONT);
+                        //kill(pid2, SIGCONT);
                         
                     }
                     /*else
@@ -608,6 +643,7 @@ char** breakStringRT(char* string, int* n)
   //sabemos o tamanho de cada um. Iremos alocar um vetor de
   //int para guardar o tamanho de cada um deles
   tamanhoPalavras = (int*) malloc((*n)*sizeof(int));
+  assert(tamanhoPalavras);
   
   //Temos o vetor de tamanhos. Agora vamos contar o tamanho
   //de cada palavra.
@@ -624,8 +660,10 @@ char** breakStringRT(char* string, int* n)
   //Com o tamanho exato de cada palavra, podemos alocar o
   //vetor final de cada linha.
   linha = (char**) malloc((*n)*sizeof(char*));
+  assert(linha);
   for(i=0;i<(*n);i++) {
     linha[i] = (char*) malloc((tamanhoPalavras[i]+1)*sizeof(char));
+    assert(linha[i]);
   }
   
   //Agora precisamos copiar as palavras para as casas do
@@ -675,6 +713,7 @@ char** breakStringPR(char* string, int* n)
   //sabemos o tamanho de cada um. Iremos alocar um vetor de
   //int para guardar o tamanho de cada um deles
   tamanhoPalavras = (int*) malloc((*n)*sizeof(int));
+  assert(tamanhoPalavras);
   
   //Temos o vetor de tamanhos. Agora vamos contar o tamanho
   //de cada palavra.
@@ -691,8 +730,10 @@ char** breakStringPR(char* string, int* n)
   //Com o tamanho exato de cada palavra, podemos alocar o
   //vetor final de cada linha.
   linha = (char**) malloc((*n)*sizeof(char*));
+  assert(linha);
   for(i=0;i<(*n);i++) {
     linha[i] = (char*) malloc((tamanhoPalavras[i]+1)*sizeof(char));
+    assert(linha[i]);
   }
   
   //Agora precisamos copiar as palavras para as casas do
@@ -753,6 +794,7 @@ char** breakStringRR(char* string, int* n)
   //sabemos o tamanho de cada um. Iremos alocar um vetor de
   //int para guardar o tamanho de cada um deles
   tamanhoPalavras = (int*) malloc((*n)*sizeof(int));
+  assert(tamanhoPalavras);
   
   //Temos o vetor de tamanhos. Agora vamos contar o tamanho
   //de cada palavra.
@@ -769,8 +811,10 @@ char** breakStringRR(char* string, int* n)
   //Com o tamanho exato de cada palavra, podemos alocar o
   //vetor final de cada linha.
   linha = (char**) malloc((*n)*sizeof(char*));
+  assert(linha);
   for(i=0;i<(*n);i++) {
     linha[i] = (char*) malloc((tamanhoPalavras[i]+1)*sizeof(char));
+    assert(linha[i]);
   }
   
   //Agora precisamos copiar as palavras para as casas do

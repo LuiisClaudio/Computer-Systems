@@ -48,10 +48,10 @@ int main() {
 
       semaforoP(semId);
             lseek(fd,0,SEEK_SET);
-      if(read(fd,bufferRead,1) > 0) {
-        read(fd,&(bufferRead[1]),16);
-        printf("foi lido: %s\n",bufferRead);
-      }
+        if(read(fd,bufferRead,1) > 0) {
+          read(fd,&(bufferRead[1]),16);
+          printf("foi lido: %s\n",bufferRead);
+        }
       semaforoV(semId);
             sleep(1);
     }

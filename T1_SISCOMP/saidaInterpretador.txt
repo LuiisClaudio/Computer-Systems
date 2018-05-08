@@ -1,0 +1,14 @@
+Comando obtido. Comando:
+Exec escalonadorPR
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Fim do interpretador.
