@@ -39,7 +39,7 @@ int main (int argc, char *argv[])
         printf("Falha no attach");
         exit(1);
   }
-  
+  //printf("---->>>>%s\n", mensagem); //@@@
   //Real Time - colocar todos os pids como -1, como se não houvesse
   //processo para ser executado naquele segundo
   for(i=0;i<60;i++)
@@ -68,6 +68,9 @@ int main (int argc, char *argv[])
     //A função breakString deve quebrar os espaços da string,
     //deixando os parâmetros em ordem:
     //Para RT: [0](nome) [1](inicio) [2](duração)
+    //printf("\n00000\n");//@@@
+    //return 0; //###
+    //printf("---->>>>%s\n", mensagem); //@@@
     linha = breakString(mensagem, &quantidadeParametros);
     strcpy(mensagem, VAZIO);
     //Se a variável skip for diferente de zero representa que já
@@ -82,18 +85,28 @@ int main (int argc, char *argv[])
     //sobrepor algum outro já existente ou se I+D>=60.
     //A variável skip irá determinar se devemos pular o programa
     //ou não.
+
+    //printf("\n1111111111\n");//@@@
+    //return 0; //Tirar isso ###
+    
+    //printf("Linha 1:%s\n", linha[1]);
     inicio = atoi(linha[1]);
+    //printf("Linha 2:%s\n", linha[2]);
     fim = atoi(linha[2]);
     fim=inicio+fim-1;
+    //printf("Aqui 1");
     if (fim > 60)
       skip++;
+    //printf("Aqui 2");
     for(i=inicio;i<=fim;i++) {
       if(vpid[i]!=-1) {
         skip++;
         break;
       }
-    }
-    //return 0;
+    }    
+  
+    //printf("\n222\n");//@@@    
+    //return 0; //tirar depis ###
     if ( skip == 0 && !(pid = fork()) ) {
       //Processo filho
       //Redirecionar a entrada do filho para a entrada

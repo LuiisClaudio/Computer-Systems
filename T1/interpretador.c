@@ -80,7 +80,7 @@ int main (int argc, char *argv[])
     }
   }
   strcpy(comando, FIM);
-  shmdt(comando);
+  //shmdt(comando);
   //Sinalizar fim do interpretador
   printf("Fim do interpretador.\n");
   fprintf(fd2, "Fim do interpretador.\n");
