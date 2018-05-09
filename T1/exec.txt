@@ -1,5 +1,8 @@
+Exec dorminhoco PR=3
 Exec durabastante
 Exec dorminhoco I=0 D=15
 Exec durabastante
+Exec dorminhoco PR=5
 Exec durabastante I=20 D=20
 Exec dorminhoco
+Exec dorminhoco PR=1

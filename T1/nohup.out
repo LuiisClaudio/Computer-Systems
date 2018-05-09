@@ -13,3 +13,14 @@ Gdk-Message: /root/firefox/firefox: Fatal IO error 11 (Resource temporarily unav
 
 Gdk-Message: /root/firefox/firefox: Fatal IO error 11 (Resource temporarily unavailable) on X server :1.
 
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 3128, Chrome_ChildThread] WARNING: pipe error (3): Connection reset by peer: file /builds/worker/workspace/build/src/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 353
+
+###!!! [Parent][MessageChannel] Error: (msgtype=0x500008,name=PMessagePort::Msg___delete__) Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+
+###!!! [Parent][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+

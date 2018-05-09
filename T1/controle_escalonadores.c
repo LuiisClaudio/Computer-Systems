@@ -217,8 +217,8 @@ int main (int argc, char *argv[])
             if (vpid[i] != anterior && anterior != -1) {
                 if (waitpid(anterior, 0, 0 | WNOHANG) != 0) {
                     programasExecutando--;
-                    printf("Processo de pid %d terminou. Removendo da lista.\n", anterior);
-                    fprintf(fd3, "Processo de pid %d terminou. Removendo da lista.\n", anterior);
+                    printf("Processo REAL TIMING de pid %d terminou. Removendo da lista.\n", anterior);
+                    fprintf(fd3, "Processo de REAL TIMING pid %d terminou. Removendo da lista.\n", anterior);
                     for(j=abs(i+59)%60;j>=0 && vpid[j] == anterior;j--)
                     {
                         vpid[j] = -1;
@@ -228,8 +228,8 @@ int main (int argc, char *argv[])
                 else 
                 {
                     kill(anterior, SIGSTOP);
-                    printf("Pausando processo %d aos %d segundos.\n", anterior, i);
-                    fprintf(fd3, "Pausando processo %d aos %d segundos.\n", anterior, i);
+                    printf("Pausando processo REAL TIMING %d aos %d segundos.\n", anterior, i);
+                    fprintf(fd3, "Pausando processo REAL TIMING %d aos %d segundos.\n", anterior, i);
                 }
                 if (vpid[i] != -1) 
                 {
@@ -237,8 +237,8 @@ int main (int argc, char *argv[])
                     j=i;
                     while(vpid[j] == vpid[i] && j<60)
                     j++;
-                    printf("Continuando processo %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
-                    fprintf(fd3, "Continuando processo %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
+                    printf("Continuando processo REAL TIMING %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
+                    fprintf(fd3, "Continuando processo REAL TIMING %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
                     programasExecutando++;
                 }
             }
@@ -247,8 +247,8 @@ int main (int argc, char *argv[])
                 j=i;
                 while(vpid[j] == vpid[i] && j<60)
                     j++;
-                printf("Continuando processo %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
-                fprintf(fd3, "Continuando processo %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
+                printf("Continuando processo REAL TIMING %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
+                fprintf(fd3, "Continuando processo REAL TIMING %d aos %d segundos durante %d segundos.\n", vpid[i], i, j-i);
                 programasExecutando++;
             }
             else if (vpid[i] == -1) {
@@ -392,11 +392,11 @@ int main (int argc, char *argv[])
             
             for(i=0;i<num;i++) {
                 printf("Continuando processo de pid %d PRIORIDADE: %d\n", vPpid[i].pid, vPpid[i].prioridade);
-                fprintf(fd3, "Continuando processo de pid %d\n", vPpid[i].pid);
+                fprintf(fd3, "Continuando processo de pid PRIORIDADE: %d\n", vPpid[i].pid);
                 kill(vPpid[i].pid, SIGCONT);
                 waitpid(vPpid[i].pid, 0, 0);
-                printf("Processo de pid %d terminou\n", vPpid[i].pid);
-                fprintf(fd3, "Processo de pid %d terminou\n", vPpid[i].pid);
+                printf("Processo PRIORIDADE de pid %d terminou\n", vPpid[i].pid);
+                fprintf(fd3, "Processo PRIORIDADE de pid %d terminou\n", vPpid[i].pid);
             }
             *flag_escalonador = *flag_escalonador & 0xDF; //1101 1111
             *flag_escalonador = *flag_escalonador | 0x2;
@@ -514,20 +514,20 @@ int main (int argc, char *argv[])
                 {
                     if (vpid[i] != -1) {
                     processos_executando++;
-                    printf("Continuando processo de pid %d\n", vpid[i]);
-                    fprintf(fd3, "Continuando processo de pid %d\n", vpid[i]);
+                    printf("Continuando processo ROUND-ROBIN de pid %d\n", vpid[i]);
+                    fprintf(fd3, "Continuando processo ROUND-ROBIN de pid %d\n", vpid[i]);
                     kill(vpid[i], SIGCONT);
                     sleep(1);
                     if (waitpid(vpid[i], 0, 0 | WNOHANG) != 0) 
                     {
-                        printf("Processo de pid %d terminou\n", vpid[i]);
-                        fprintf(fd3, "Processo de pid %d terminou\n", vpid[i]);
+                        printf("Processo ROUND-ROBIN de pid %d terminou\n", vpid[i]);
+                        fprintf(fd3, "Processo ROUND-ROBIN de pid %d terminou\n", vpid[i]);
                         vpid[i] = -1;
                     }
                     else 
                     {
-                        printf("Pausando processo de pid %d\n", vpid[i]);
-                        fprintf(fd3, "Pausando processo de pid %d\n", vpid[i]);
+                        printf("Pausando processo ROUND-ROBIN de pid %d\n", vpid[i]);
+                        fprintf(fd3, "Pausando processo ROUND-ROBIN de pid %d\n", vpid[i]);
                         kill(vpid[i], SIGSTOP);
                     }
                     }
@@ -583,8 +583,7 @@ int main (int argc, char *argv[])
                         break;
                     } 
                     sleep(1);
-                    //if(ocupado == FALSE)
-                    printf("%lds\n", segundo_atual);
+                   
                     //printf("\tFlag: %x, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
    
                     // Keep printing tokens while one of the
@@ -597,6 +596,8 @@ int main (int argc, char *argv[])
                     if(controle_tempo[segundo_atual] == TRUE)
                     {
                         ocupado = TRUE;
+                        kill(pid2, SIGSTOP);
+                        kill(pid3, SIGSTOP);
                         //printf("Ocupado %ld ", time(0)%60);
                     }
                     else
@@ -604,7 +605,10 @@ int main (int argc, char *argv[])
                         ocupado = FALSE;
                         //printf("Livre %ld ", time(0)%60);
                     }
-                
+                    if(ocupado == TRUE)
+                        printf("RT -->%lds\n", segundo_atual);
+                    else
+                        printf("%lds\n", segundo_atual);
                     if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
                     {
                         //if(ocupado == TRUE)

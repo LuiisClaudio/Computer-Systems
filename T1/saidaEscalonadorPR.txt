@@ -1,0 +1,24 @@
+
+PR Leitura 1 feita
+nome: dorminhoco
+prioridade: 3
+vPpid[0].pid= 3552
+vPpid[0].prioridade = 3
+
+PR Leitura 2 feita
+nome: dorminhoco
+prioridade: 5
+vPpid[1].pid= 3556
+vPpid[1].prioridade = 5
+
+PR Leitura 3 feita
+nome: dorminhoco
+prioridade: 1
+vPpid[2].pid= 3559
+vPpid[2].prioridade = 1
+Continuando processo de pid PRIORIDADE: 3559
+Processo PRIORIDADE de pid 3559 terminou
+Continuando processo de pid PRIORIDADE: 3552
+Processo PRIORIDADE de pid 3552 terminou
+Continuando processo de pid PRIORIDADE: 3556
+Processo PRIORIDADE de pid 3556 terminou
