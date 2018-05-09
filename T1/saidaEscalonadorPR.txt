@@ -1,0 +1,19 @@
+
+PR Leitura 1 feita
+nome: dorminhoco
+prioridade: 5
+vPpid[0].pid= 575
+vPpid[0].prioridade = 5
+
+PR Leitura 2 feita
+nome: dorminhoco
+prioridade: 1
+vPpid[1].pid= 576
+vPpid[1].prioridade = 1
+
+Iniciando escalonamento dos processos:
+
+Continuando processo de pid 576
+Processo de pid 576 terminou
+Continuando processo de pid 575
+Processo de pid 575 terminou

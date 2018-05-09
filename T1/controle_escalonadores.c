@@ -16,6 +16,7 @@
 #define SIZE_SEG 200
 #define TRUE 1
 #define EVER ;;
+#define FALSE 0
 
 typedef struct tipoPrioridade {
   int pid;
@@ -75,8 +76,7 @@ int main (int argc, char *argv[])
         int inicio, fim, skip, pid, programasExecutando, anterior;
         char* commands[]={NULL}, **linha, comando[200];
         int vpid[60], i, j;
-        
-        *flag_escalonador = 3;
+        printf("\n\n\t\tReat Timing\n\n");
         //Real Time - colocar todos os pids como -1, como se não houvesse
         //processo para ser executado naquele segundo
         for(i=0;i<60;i++)
@@ -91,112 +91,112 @@ int main (int argc, char *argv[])
             perror("Error open() fd1\n");
             exit(-1);
         }
-        
         //Enquanto ainda houverem linhas para serem lidas...
-        while(words(mensagem) == 4)//strcmp(mensagem, FIM) != 0 ) 
+        while(strcmp(mensagem, FIM) != 0)//strcmp(mensagem, FIM) != 0 ) 
         {
-            while( strcmp(mensagem, VAZIO) == 0) 
+            if(words(mensagem) == 4)
             {
-                printf("Aguardando o interpretador preencher o comando\n");
-                fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
-                sleep(1);
-            }
-            printf("\nLeitura feita\n");
-            fprintf(fd3, "\nLeitura feita\n");
-            //Após a leitura da linha, quebra-se a string
-            //A função breakString deve quebrar os espaços da string,
-            //deixando os parâmetros em ordem:
-            //Para RT: [0](nome) [1](inicio) [2](duração)
-            linha = breakStringRT(mensagem, &quantidadeParametros);
-            strcpy(mensagem, VAZIO);
-            //Se a variável skip for diferente de zero representa que já
-            //existe um programa rodando no intervalo do programa sendo
-            //iniciado, portanto este será ignorado
-            skip=0;
-            //Com a quebra da string, teremos o nome do programa a ser executado
-            //sempre no índice 0
-            printf("nome: %s\ninicio: %s\nduracao: %s\n", linha[0], linha[1], linha[2]);
-            fprintf(fd3, "nome: %s\ninicio: %s\nduracao: %s\n", linha[0], linha[1], linha[2]);
-            //Por ser RT, precisamos verificar se o programa irá
-            //sobrepor algum outro já existente ou se I+D>=60.
-            //A variável skip irá determinar se devemos pular o programa
-            //ou não.
+                while( strcmp(mensagem, VAZIO) == 0) 
+                {
+                    printf("Aguardando o interpretador preencher o comando\n");
+                    fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
+                    sleep(1);
+                }
+                printf("\nRTLeitura feita\n");
+                fprintf(fd3, "\nRTLeitura feita\n");
+                //Após a leitura da linha, quebra-se a string
+                //A função breakString deve quebrar os espaços da string,
+                //deixando os parâmetros em ordem:
+                //Para RT: [0](nome) [1](inicio) [2](duração)
+                linha = breakStringRT(mensagem, &quantidadeParametros);
+                strcpy(mensagem, VAZIO);
+                //Se a variável skip for diferente de zero representa que já
+                //existe um programa rodando no intervalo do programa sendo
+                //iniciado, portanto este será ignorado
+                skip=0;
+                //Com a quebra da string, teremos o nome do programa a ser executado
+                //sempre no índice 0
+                printf("nome: %s\ninicio: %s\nduracao: %s\n", linha[0], linha[1], linha[2]);
+                fprintf(fd3, "nome: %s\ninicio: %s\nduracao: %s\n", linha[0], linha[1], linha[2]);
+                //Por ser RT, precisamos verificar se o programa irá
+                //sobrepor algum outro já existente ou se I+D>=60.
+                //A variável skip irá determinar se devemos pular o programa
+                //ou não.
 
-            //printf("\n1111111111\n");//@@@
-            //return 0; //Tirar isso ###
-            
-            //printf("Linha 1:%s\n", linha[1]);
-            inicio = atoi(linha[1]);
-            //printf("Linha 2:%s\n", linha[2]);
-            fim = atoi(linha[2]);
-            fim=inicio+fim-1;
-            //printf("Aqui 1");
-            if (fim > 60)
-                skip++;
-            //printf("Aqui 2");
-            for(i=inicio;i<=fim;i++) {
-                if(vpid[i]!=-1) {
+                //printf("\n1111111111\n");//@@@
+                //return 0; //Tirar isso ###
+                
+                //printf("Linha 1:%s\n", linha[1]);
+                inicio = atoi(linha[1]);
+                //printf("Linha 2:%s\n", linha[2]);
+                fim = atoi(linha[2]);
+                fim=inicio+fim-1;
+                //printf("Aqui 1");
+                if (fim > 60)
                     skip++;
-                    break;
-                }
-            }    
-        
-            //printf("\n222\n");//@@@    
-            //return 0; //tirar depis ###
-            if ( skip == 0 && !(pid = fork()) ) {
-                //Processo filho
-                //Redirecionar a entrada do filho para a entrada
-                //do programa a ser executado. O nome do arquivo
-                //de entrada é sempre "(nomeDoPrograma)entrada.txt"
-                strcpy(comando, linha[0]);
-                strcat(comando, "entrada.txt");
-                //Com o nome do arquivo, podemos abri-lo e redirecionar
-                //a entrada.
-                if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
-                    perror("Error open() fd1\n");
-                    exit(-1);
-                }
-                if (dup2(fd1,0) == -1) {
-                    perror("Erro dup2 fd1\n");
-                    exit(-4);
-                }
-                if (dup2(fd2,1) == -1) {
-                    perror("Erro dup2 fd2\n");
-                    exit(-5);
-                }
-                //Agora já redirecionamos a entrada do novo programa,
-                //podemos colocá-lo para rodar.
-                strcpy(comando,"./");
-                strcat(comando, linha[0]);
-                raise(SIGSTOP);
-                execve(comando, commands, 0);
-            }
-            else if (skip == 0) {
-                //Por ser RT, devemos guardar o pid do processo em cada
-                //segundo que ele deve estar executando.
+                //printf("Aqui 2");
                 for(i=inicio;i<=fim;i++) {
-                    vpid[i]=pid;
-                    //Nao pode escalonar nesse instante
-                    controle_tempo[i] = TRUE;
-                    printf("vpid[%d]= %d\n", i, pid);
-                    fprintf(fd3, "vpid[%d]= %d\n", i, pid);
+                    if(vpid[i]!=-1) {
+                        skip++;
+                        break;
+                    }
+                }    
+            
+                //printf("\n222\n");//@@@    
+                //return 0; //tirar depis ###
+                if ( skip == 0 && !(pid = fork()) ) {
+                    //Processo filho
+                    //Redirecionar a entrada do filho para a entrada
+                    //do programa a ser executado. O nome do arquivo
+                    //de entrada é sempre "(nomeDoPrograma)entrada.txt"
+                    strcpy(comando, linha[0]);
+                    strcat(comando, "entrada.txt");
+                    //Com o nome do arquivo, podemos abri-lo e redirecionar
+                    //a entrada.
+                    if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
+                        perror("Error open() fd1\n");
+                        exit(-1);
+                    }
+                    if (dup2(fd1,0) == -1) {
+                        perror("Erro dup2 fd1\n");
+                        exit(-4);
+                    }
+                    if (dup2(fd2,1) == -1) {
+                        perror("Erro dup2 fd2\n");
+                        exit(-5);
+                    }
+                    //Agora já redirecionamos a entrada do novo programa,
+                    //podemos colocá-lo para rodar.
+                    strcpy(comando,"./");
+                    strcat(comando, linha[0]);
+                    raise(SIGSTOP);
+                    execve(comando, commands, 0);
                 }
-                //Intervalo de 1 segundo entre cada processo.
-                sleep(1);
+                else if (skip == 0) {
+                    //Por ser RT, devemos guardar o pid do processo em cada
+                    //segundo que ele deve estar executando.
+                    for(i=inicio;i<=fim;i++) {
+                        vpid[i]=pid;
+                        //Nao pode escalonar nesse instante
+                        controle_tempo[i] = TRUE;
+                        printf("vpid[%d]= %d\n", i, pid);
+                        fprintf(fd3, "vpid[%d]= %d\n", i, pid);
+                    }
+                    //Intervalo de 1 segundo entre cada processo.
+                    sleep(1);
+                }
+                else {
+                    printf("Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
+                    fprintf(fd3, "Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
+                    sleep(1);
+                }
+                for(i=0;i<quantidadeParametros;i++)
+                free(linha[i]);
+                free(linha);
             }
-            else {
-                printf("Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
-                fprintf(fd3, "Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
-                sleep(1);
-            }
-            for(i=0;i<quantidadeParametros;i++)
-            free(linha[i]);
-            free(linha);
         }
-        shmdt(mensagem);
         printf("\nIniciando escalonamento dos processos:\n\n");
         fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
-        shmctl(segmentomsg, IPC_RMID, 0);
         
         //Código do respectivo escalonador
         
@@ -258,8 +258,8 @@ int main (int argc, char *argv[])
             //else if (i==59 && programasExecutando == 0)
             else if(programasExecutando == 0)
             {
-                *flag_escalonador = 2;
-                //break;
+                *flag_escalonador = *flag_escalonador | 0x1;
+                
             }
             sleep(1);
         }
@@ -277,6 +277,7 @@ int main (int argc, char *argv[])
         pid2 = fork();
         if(pid2 == 0)
         {
+            
             printf("pid2\n");
             int fd1, fd2, quantidadeParametros;
             FILE* fd3;
@@ -284,7 +285,7 @@ int main (int argc, char *argv[])
             char* commands[]={NULL}, **linha, comando[200];
             int i, num;
             tpPrioridade vPpid[100];
-            
+            printf("\n\n\t\tPrioridade\n\n");
             printf("Pegando area de memoria\n");
             //Criando as áreas de memória compartilhada
             
@@ -302,73 +303,78 @@ int main (int argc, char *argv[])
             //a quantidade de processos(em casos não-RT).
             i=0;
             //Enquanto ainda houverem linhas para serem lidas...
-            while( strcmp(mensagem, FIM) != 0 ) {
-                while( strcmp(mensagem, VAZIO) == 0) {
-                printf("Aguardando o interpretador preencher o comando\n");
-                fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
-                sleep(1);
+            while(strcmp(mensagem, FIM) != 0) 
+            {
+                if(words(mensagem) == 3)
+                {
+                    while( strcmp(mensagem, VAZIO) == 0) 
+                    {
+                        printf("Aguardando o interpretador preencher o comando\n");
+                        fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
+                        sleep(1);
+                    }
+                    printf("\nPR Leitura %d feita\n", i+1);
+                    fprintf(fd3, "\nPR Leitura %d feita\n", i+1);
+                    //Após a leitura da linha, quebra-se a string
+                    //A função breakString deve quebrar os espaços da string,
+                    //deixando os parâmetros em ordem:
+                    //Para Prioridade: [0](nome) [1](prioridade)
+                    linha = breakStringPR(mensagem, &quantidadeParametros);
+                    strcpy(mensagem, VAZIO);
+                    //Com a quebra da string, teremos o nome do programa a ser executado
+                    //sempre no índice 0
+                    printf("nome: %s\nprioridade: %s\n", linha[0], linha[1]);
+                    fprintf(fd3, "nome: %s\nprioridade: %s\n", linha[0], linha[1]);
+                    if ( !(pid = fork()) ) 
+                    {
+                        //Processo filho
+                        //Redirecionar a entrada do filho para a entrada
+                        //do programa a ser executado. O nome do arquivo
+                        //de entrada é sempre "(nomeDoPrograma)entrada.txt"
+                        strcpy(comando, linha[0]);
+                        strcat(comando, "entrada.txt");
+                        //Com o nome do arquivo, podemos abri-lo e redirecionar
+                        //a entrada.
+                        if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
+                            perror("Error open() fd1\n");
+                            exit(-1);
+                        }
+                        if (dup2(fd1,0) == -1) {
+                            perror("Erro dup2 fd1\n");
+                            exit(-4);
+                        }
+                        if (dup2(fd2,1) == -1) {
+                            perror("Erro dup2 fd2\n");
+                            exit(-5);
+                        }
+                        //Agora já redirecionamos a entrada do novo programa,
+                        //podemos colocá-lo para rodar.
+                        strcpy(comando,"./");
+                        strcat(comando, linha[0]);
+                        raise(SIGSTOP);
+                        execve(comando, commands, 0);
+                    }
+                    else 
+                    {
+                        //Por ser PR, devemos colocar a prioridade na struct
+                        vPpid[i].pid=pid;
+                        vPpid[i].prioridade = atoi(linha[1]);
+                        printf("vPpid[%d].pid= %d\nvPpid[%d].prioridade = %d\n", i, vPpid[i].pid, i, vPpid[i].prioridade);
+                        fprintf(fd3, "vPpid[%d].pid= %d\nvPpid[%d].prioridade = %d\n", i, vPpid[i].pid, i, vPpid[i].prioridade);
+                        i++;
+                        //Intervalo de 1 segundo entre cada processo.
+                        sleep(1);
+                    }
+                    for(j=0;j<quantidadeParametros;j++)
+                        free(linha[j]);
+                    free(linha);
                 }
-                printf("\nLeitura %d feita\n", i+1);
-                fprintf(fd3, "\nLeitura %d feita\n", i+1);
-                //Após a leitura da linha, quebra-se a string
-                //A função breakString deve quebrar os espaços da string,
-                //deixando os parâmetros em ordem:
-                //Para Prioridade: [0](nome) [1](prioridade)
-                linha = breakStringPR(mensagem, &quantidadeParametros);
-                strcpy(mensagem, VAZIO);
-                //Com a quebra da string, teremos o nome do programa a ser executado
-                //sempre no índice 0
-                printf("nome: %s\nprioridade: %s\n", linha[0], linha[1]);
-                fprintf(fd3, "nome: %s\nprioridade: %s\n", linha[0], linha[1]);
-                if ( !(pid = fork()) ) {
-                //Processo filho
-                //Redirecionar a entrada do filho para a entrada
-                //do programa a ser executado. O nome do arquivo
-                //de entrada é sempre "(nomeDoPrograma)entrada.txt"
-                strcpy(comando, linha[0]);
-                strcat(comando, "entrada.txt");
-                //Com o nome do arquivo, podemos abri-lo e redirecionar
-                //a entrada.
-                if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
-                    perror("Error open() fd1\n");
-                    exit(-1);
-                }
-                if (dup2(fd1,0) == -1) {
-                    perror("Erro dup2 fd1\n");
-                    exit(-4);
-                }
-                if (dup2(fd2,1) == -1) {
-                    perror("Erro dup2 fd2\n");
-                    exit(-5);
-                }
-                //Agora já redirecionamos a entrada do novo programa,
-                //podemos colocá-lo para rodar.
-                strcpy(comando,"./");
-                strcat(comando, linha[0]);
-                raise(SIGSTOP);
-                execve(comando, commands, 0);
-                }
-                else {
-                //Por ser PR, devemos colocar a prioridade na struct
-                vPpid[i].pid=pid;
-                vPpid[i].prioridade = atoi(linha[1]);
-                printf("vPpid[%d].pid= %d\nvPpid[%d].prioridade = %d\n", i, vPpid[i].pid, i, vPpid[i].prioridade);
-                fprintf(fd3, "vPpid[%d].pid= %d\nvPpid[%d].prioridade = %d\n", i, vPpid[i].pid, i, vPpid[i].prioridade);
-                i++;
-                //Intervalo de 1 segundo entre cada processo.
-                sleep(1);
-                }
-                for(j=0;j<quantidadeParametros;j++)
-                free(linha[j]);
-                free(linha);
             }
-            shmdt(mensagem);
             printf("\nIniciando escalonamento dos processos:\n\n");
             fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
-            shmctl(segmentomsg, IPC_RMID, 0);
             
+
             //Código do respectivo escalonador
-            
             num=i;
             
             qsort(vPpid, num, sizeof(tpPrioridade), compara);
@@ -382,6 +388,8 @@ int main (int argc, char *argv[])
                 fprintf(fd3, "Processo de pid %d terminou\n", vPpid[i].pid);
             }
             
+            *flag_escalonador = *flag_escalonador | 0x2;
+
             fclose(fd3);
             return 0;
             //FimEscalonadorPR
@@ -413,70 +421,72 @@ int main (int argc, char *argv[])
                 //a quantidade de processos(em casos não-RT).
                 i=0;
                 //Enquanto ainda houverem linhas para serem lidas...
-                while( strcmp(mensagem, FIM) != 0 ) {
-                    while( strcmp(mensagem, VAZIO) == 0) {
-                    printf("Aguardando o interpretador preencher o comando\n");
-                    fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
-                    sleep(1);
+                while( strcmp(mensagem, FIM) != 0 ) 
+                {
+                    if(words(mensagem) == 2)
+                    {
+                        while( strcmp(mensagem, VAZIO) == 0) {
+                        printf("Aguardando o interpretador preencher o comando\n");
+                        fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
+                        sleep(1);
+                        }
+                        printf("\nRR Leitura %d feita\n", i+1);
+                        fprintf(fd3, "\n RR Leitura %d feita\n", i+1);
+                        //Após a leitura da linha, quebra-se a string
+                        //A função breakString deve quebrar os espaços da string,
+                        //deixando os parâmetros em ordem:
+                        //Para RR: [0](nome)
+                        //Para Prioridade: [0](nome) [1](prioridade)
+                        //Para RT: [0](nome) [1](inicio) [2](duração)
+                        linha = breakStringRR(mensagem, &quantidadeParametros);
+                        strcpy(mensagem, VAZIO);
+                        printf("nome: %s\n\n", linha[0]);
+                        fprintf(fd3, "nome: %s\n\n", linha[0]);
+                        if ( !(pid = fork()) ) {
+                        //Processo filho
+                        //Redirecionar a entrada do filho para a entrada
+                        //do programa a ser executado. O nome do arquivo
+                        //de entrada é sempre "(nomeDoPrograma)entrada.txt"
+                        strcpy(comando, linha[0]);
+                        strcat(comando, "entrada.txt");
+                        //Com o nome do arquivo, podemos abri-lo e redirecionar
+                        //a entrada.
+                        if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
+                            perror("Error open() fd1\n");
+                            exit(-1);
+                        }
+                        if (dup2(fd1,0) == -1) {
+                            perror("Erro dup2 fd1\n");
+                            exit(-4);
+                        }
+                        if (dup2(fd2,1) == -1) {
+                            perror("Erro dup2 fd2\n");
+                            exit(-5);
+                        }
+                        //Agora já redirecionamos a entrada do novo programa,
+                        //podemos colocá-lo para rodar.
+                        strcpy(comando,"./");
+                        strcat(comando, linha[0]);
+                        raise(SIGSTOP);
+                        execve(comando, commands, 0);
+                        }
+                        else {
+                        //Processo pai
+                        //Coloca o PID no vetor para o RR
+                        vpid[i]=pid;
+                        printf("vpid[%d]= %d\n", i, pid);
+                        fprintf(fd3, "vpid[%d]= %d\n", i, pid);
+                        i++;
+                        //Intervalo de 1 segundo entre cada processo.
+                        sleep(1);
+                        }
+                        for(j=0;j<quantidadeParametros;j++)
+                        free(linha[j]);
+                        free(linha);
                     }
-                    printf("\nLeitura %d feita\n", i+1);
-                    fprintf(fd3, "\nLeitura %d feita\n", i+1);
-                    //Após a leitura da linha, quebra-se a string
-                    //A função breakString deve quebrar os espaços da string,
-                    //deixando os parâmetros em ordem:
-                    //Para RR: [0](nome)
-                    //Para Prioridade: [0](nome) [1](prioridade)
-                    //Para RT: [0](nome) [1](inicio) [2](duração)
-                    linha = breakStringRR(mensagem, &quantidadeParametros);
-                    strcpy(mensagem, VAZIO);
-                    printf("nome: %s\n\n", linha[0]);
-                    fprintf(fd3, "nome: %s\n\n", linha[0]);
-                    if ( !(pid = fork()) ) {
-                    //Processo filho
-                    //Redirecionar a entrada do filho para a entrada
-                    //do programa a ser executado. O nome do arquivo
-                    //de entrada é sempre "(nomeDoPrograma)entrada.txt"
-                    strcpy(comando, linha[0]);
-                    strcat(comando, "entrada.txt");
-                    //Com o nome do arquivo, podemos abri-lo e redirecionar
-                    //a entrada.
-                    if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
-                        perror("Error open() fd1\n");
-                        exit(-1);
-                    }
-                    if (dup2(fd1,0) == -1) {
-                        perror("Erro dup2 fd1\n");
-                        exit(-4);
-                    }
-                    if (dup2(fd2,1) == -1) {
-                        perror("Erro dup2 fd2\n");
-                        exit(-5);
-                    }
-                    //Agora já redirecionamos a entrada do novo programa,
-                    //podemos colocá-lo para rodar.
-                    strcpy(comando,"./");
-                    strcat(comando, linha[0]);
-                    raise(SIGSTOP);
-                    execve(comando, commands, 0);
-                    }
-                    else {
-                    //Processo pai
-                    //Coloca o PID no vetor para o RR
-                    vpid[i]=pid;
-                    printf("vpid[%d]= %d\n", i, pid);
-                    fprintf(fd3, "vpid[%d]= %d\n", i, pid);
-                    i++;
-                    //Intervalo de 1 segundo entre cada processo.
-                    sleep(1);
-                    }
-                    for(j=0;j<quantidadeParametros;j++)
-                    free(linha[j]);
-                    free(linha);
                 }
-                shmdt(mensagem);
                 printf("\nIniciando escalonamento dos processos:\n\n");
                 fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
-                shmctl(segmentomsg, IPC_RMID, 0);
                 
                 //Código do respectivo escalonador
                 
@@ -512,7 +522,7 @@ int main (int argc, char *argv[])
                         processos_executando = 0;
                     }
                 }
-                *flag_escalonador = 2;
+                *flag_escalonador = *flag_escalonador | 0x4;
                 printf("Fim do escalonamento.\n");
                 fprintf(fd3, "Fim do escalonamento.\n");
                 
@@ -530,52 +540,70 @@ int main (int argc, char *argv[])
                 kill(pid1, SIGSTOP);
 				kill(pid2, SIGSTOP);
 				kill(pid3, SIGSTOP);
-                *flag_escalonador = -1;
+                *flag_escalonador = 0;
 
                 int conta_segundos = 0;
                 while(1)
                 {
-                    //kill(pid1, SIGCONT);
-                    //kill(pid1, SIGSTOP);
-                    //printf("\t%s\n", mensagem);
-                    //printf("\tWords = %i\n", words(mensagem));
-                    //kill(pid1, SIGCONT);
+                    int ocupado;
+                    
+                    if (*flag_escalonador == 0x7) //significa que todos os escalonamentos acabaram
+                    {
+                        kill(pid2, SIGKILL);
+                        kill(pid3, SIGKILL);
+                        kill(pid1, SIGKILL);
+                        break;
+                    } 
                     sleep(1);
                     printf("\tFlag: %d, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
    
                     // Keep printing tokens while one of the
                     // delimiters present in str[].
-                    while (token != NULL)
+                    /*while (token != NULL)
                     {
                         printf("%s\n", token);
                         token = strtok(NULL, " ");
-                    }
+                    }*/
                     if(controle_tempo[time(0)%60] == TRUE)
-                        printf("Ocupado %d\n", time(0)%60);
-                    else
-                        printf("Livre %d\n", time(0)%60);
-                    
-                    if(words(mensagem) == 4  && *flag_escalonador != 2)
                     {
+                        ocupado = TRUE;
+                        printf("Ocupado %ld ", time(0)%60);
+                    }
+                    else
+                    {
+                        ocupado = FALSE;
+                        printf("Livre %ld ", time(0)%60);
+                    }
+                
+                    if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
+                    {
+                        printf("--->RT\n");
                         //Matar o PR e RR
                         kill(pid2, SIGSTOP);
-                        kill(pid3, SIGSTOP);
                         kill(pid1, SIGCONT);
                     }
-                    else if(*flag_escalonador == 2 ) 
+                    else
                     {
                         kill(pid1, SIGSTOP);
-                        kill(pid3, SIGSTOP);
-                        //kill(pid2, SIGCONT);
-                        
                     }
-                    /*else
+
+                    if(ocupado == FALSE) 
                     {
-                        kill(pid1, SIGSTOP);
-				        kill(pid2, SIGSTOP);
-				        kill(pid3, SIGSTOP);
-                        printf("\t%s = %i\n", mensagem, words(mensagem));
-                    }*/
+                        
+                        if((0x2 & *flag_escalonador) == 0x0) //Processo PR ainda nao acabou
+                        {
+                            printf("Processo PR \n");
+                            kill(pid2, SIGCONT);
+                            kill(pid3, SIGSTOP);
+                        }
+                        else
+                        {
+                            printf("Processo RR \n");
+                            //kill(pid1, SIGSTOP);
+                            kill(pid2, SIGSTOP);
+                            kill(pid3, SIGCONT);
+                        }
+                    }
                 }
             }
         }
@@ -714,7 +742,6 @@ char** breakStringPR(char* string, int* n)
   //int para guardar o tamanho de cada um deles
   tamanhoPalavras = (int*) malloc((*n)*sizeof(int));
   assert(tamanhoPalavras);
-  
   //Temos o vetor de tamanhos. Agora vamos contar o tamanho
   //de cada palavra.
   for(i=5;string[i] != '\0';i++) {

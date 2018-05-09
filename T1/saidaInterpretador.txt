@@ -1,0 +1,16 @@
+Comando obtido. Comando:
+Exec dorminhoco I=0 D=10
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec dorminhoco PR=5
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec dorminhoco PR=1
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec dorminhoco I=20 D=15
+Aguardando o escalonador limpar o comando
+Fim do interpretador.

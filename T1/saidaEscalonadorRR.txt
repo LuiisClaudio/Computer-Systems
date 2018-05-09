@@ -1,0 +1,5 @@
+
+Iniciando escalonamento dos processos:
+
+Iniciando escalonador RR
+Fim do escalonamento.
