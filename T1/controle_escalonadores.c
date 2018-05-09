@@ -96,6 +96,7 @@ int main (int argc, char *argv[])
         {
             if(words(mensagem) == 4)
             {
+                 *flag_escalonador = *flag_escalonador | 0x10;
                 while( strcmp(mensagem, VAZIO) == 0) 
                 {
                     printf("Aguardando o interpretador preencher o comando\n");
@@ -258,6 +259,7 @@ int main (int argc, char *argv[])
             //else if (i==59 && programasExecutando == 0)
             else if(programasExecutando == 0)
             {
+                *flag_escalonador = *flag_escalonador & 0xEF; //1110 1111
                 *flag_escalonador = *flag_escalonador | 0x1;
                 
             }
@@ -307,6 +309,7 @@ int main (int argc, char *argv[])
             {
                 if(words(mensagem) == 3)
                 {
+                    *flag_escalonador = *flag_escalonador | 0x20;
                     while( strcmp(mensagem, VAZIO) == 0) 
                     {
                         printf("Aguardando o interpretador preencher o comando\n");
@@ -387,7 +390,7 @@ int main (int argc, char *argv[])
                 printf("Processo de pid %d terminou\n", vPpid[i].pid);
                 fprintf(fd3, "Processo de pid %d terminou\n", vPpid[i].pid);
             }
-            
+            *flag_escalonador = *flag_escalonador & 0xDF; //1101 1111
             *flag_escalonador = *flag_escalonador | 0x2;
 
             fclose(fd3);
@@ -425,6 +428,7 @@ int main (int argc, char *argv[])
                 {
                     if(words(mensagem) == 2)
                     {
+                        *flag_escalonador = *flag_escalonador | 0x40;
                         while( strcmp(mensagem, VAZIO) == 0) {
                         printf("Aguardando o interpretador preencher o comando\n");
                         fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
@@ -442,46 +446,47 @@ int main (int argc, char *argv[])
                         strcpy(mensagem, VAZIO);
                         printf("nome: %s\n\n", linha[0]);
                         fprintf(fd3, "nome: %s\n\n", linha[0]);
-                        if ( !(pid = fork()) ) {
-                        //Processo filho
-                        //Redirecionar a entrada do filho para a entrada
-                        //do programa a ser executado. O nome do arquivo
-                        //de entrada é sempre "(nomeDoPrograma)entrada.txt"
-                        strcpy(comando, linha[0]);
-                        strcat(comando, "entrada.txt");
-                        //Com o nome do arquivo, podemos abri-lo e redirecionar
-                        //a entrada.
-                        if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
-                            perror("Error open() fd1\n");
-                            exit(-1);
-                        }
-                        if (dup2(fd1,0) == -1) {
-                            perror("Erro dup2 fd1\n");
-                            exit(-4);
-                        }
-                        if (dup2(fd2,1) == -1) {
-                            perror("Erro dup2 fd2\n");
-                            exit(-5);
-                        }
-                        //Agora já redirecionamos a entrada do novo programa,
-                        //podemos colocá-lo para rodar.
-                        strcpy(comando,"./");
-                        strcat(comando, linha[0]);
-                        raise(SIGSTOP);
-                        execve(comando, commands, 0);
+                        if ( !(pid = fork()) ) 
+                        {
+                            //Processo filho
+                            //Redirecionar a entrada do filho para a entrada
+                            //do programa a ser executado. O nome do arquivo
+                            //de entrada é sempre "(nomeDoPrograma)entrada.txt"
+                            strcpy(comando, linha[0]);
+                            strcat(comando, "entrada.txt");
+                            //Com o nome do arquivo, podemos abri-lo e redirecionar
+                            //a entrada.
+                            if ((fd1 = open(comando, O_RDWR|O_CREAT, 0666)) == -1) {
+                                perror("Error open() fd1\n");
+                                exit(-1);
+                            }
+                            if (dup2(fd1,0) == -1) {
+                                perror("Erro dup2 fd1\n");
+                                exit(-4);
+                            }
+                            if (dup2(fd2,1) == -1) {
+                                perror("Erro dup2 fd2\n");
+                                exit(-5);
+                            }
+                            //Agora já redirecionamos a entrada do novo programa,
+                            //podemos colocá-lo para rodar.
+                            strcpy(comando,"./");
+                            strcat(comando, linha[0]);
+                            raise(SIGSTOP);
+                            execve(comando, commands, 0);
                         }
                         else {
-                        //Processo pai
-                        //Coloca o PID no vetor para o RR
-                        vpid[i]=pid;
-                        printf("vpid[%d]= %d\n", i, pid);
-                        fprintf(fd3, "vpid[%d]= %d\n", i, pid);
-                        i++;
-                        //Intervalo de 1 segundo entre cada processo.
-                        sleep(1);
+                            //Processo pai
+                            //Coloca o PID no vetor para o RR
+                            vpid[i]=pid;
+                            printf("vpid[%d]= %d\n", i, pid);
+                            fprintf(fd3, "vpid[%d]= %d\n", i, pid);
+                            i++;
+                            //Intervalo de 1 segundo entre cada processo.
+                            sleep(1);
                         }
                         for(j=0;j<quantidadeParametros;j++)
-                        free(linha[j]);
+                            free(linha[j]);
                         free(linha);
                     }
                 }
@@ -522,6 +527,8 @@ int main (int argc, char *argv[])
                         processos_executando = 0;
                     }
                 }
+
+                *flag_escalonador = *flag_escalonador & 0xBF; //1011 1111
                 *flag_escalonador = *flag_escalonador | 0x4;
                 printf("Fim do escalonamento.\n");
                 fprintf(fd3, "Fim do escalonamento.\n");
@@ -577,7 +584,7 @@ int main (int argc, char *argv[])
                 
                     if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
                     {
-                        printf("--->RT\n");
+                        //printf("--->RT\n");
                         //Matar o PR e RR
                         kill(pid2, SIGSTOP);
                         kill(pid1, SIGCONT);
@@ -590,18 +597,21 @@ int main (int argc, char *argv[])
                     if(ocupado == FALSE) 
                     {
                         
-                        if((0x2 & *flag_escalonador) == 0x0) //Processo PR ainda nao acabou
+                        if( ( (0x2 & *flag_escalonador) == 0x0 ) ) //Processo PR ainda nao acabou
                         {
                             printf("Processo PR \n");
                             kill(pid2, SIGCONT);
                             kill(pid3, SIGSTOP);
                         }
-                        else
+                        if((0x20 & *flag_escalonador) == 0x0)
                         {
-                            printf("Processo RR \n");
-                            //kill(pid1, SIGSTOP);
-                            kill(pid2, SIGSTOP);
-                            kill(pid3, SIGCONT);
+                            if((0x4 & *flag_escalonador) == 0x0)
+                            {
+                                printf("Processo RR \n");
+                                //kill(pid1, SIGSTOP);
+                                kill(pid2, SIGSTOP);
+                                kill(pid3, SIGCONT);
+                            }
                         }
                     }
                 }

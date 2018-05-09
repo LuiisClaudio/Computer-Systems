@@ -1,5 +1,34 @@
 
+ RR Leitura 1 feita
+nome: dorminhoco
+
+vpid[0]= 1313
+
 Iniciando escalonamento dos processos:
 
 Iniciando escalonador RR
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Pausando processo de pid 1313
+Continuando processo de pid 1313
+Processo de pid 1313 terminou
 Fim do escalonamento.
