@@ -1,149 +1,23 @@
 
- RR Leitura 1 feita
-nome: durabastante
-
-vpid[0]= 3553
-
- RR Leitura 2 feita
-nome: durabastante
-
-vpid[1]= 3555
-
- RR Leitura 3 feita
+RR Leitura 1 feita Exec dorminhoco
 nome: dorminhoco
 
-vpid[2]= 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Pausando processo ROUND-ROBIN de pid 3558
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3558
-Processo ROUND-ROBIN de pid 3558 terminou
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Pausando processo ROUND-ROBIN de pid 3555
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3555
-Processo ROUND-ROBIN de pid 3555 terminou
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Pausando processo ROUND-ROBIN de pid 3553
-Continuando processo ROUND-ROBIN de pid 3553
-Processo ROUND-ROBIN de pid 3553 terminou
+vpid[0]= 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Pausando processo ROUND-ROBIN de pid 7926
+Continuando processo ROUND-ROBIN de pid 7926
+Processo ROUND-ROBIN de pid 7926 terminou

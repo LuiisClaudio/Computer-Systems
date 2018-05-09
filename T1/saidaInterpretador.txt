@@ -1,34 +1,29 @@
 Comando obtido. Comando:
-Exec dorminhoco PR=3
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
+Exec dorminhoco I=0 D=10
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec durabastante
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-
-Comando obtido. Comando:
-Exec durabastante
+Exec durabastante I=40 D=15
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
 Exec dorminhoco PR=5
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec durabastante I=20 D=20
+Exec dorminhoco
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-
-Comando obtido. Comando:
 Exec dorminhoco PR=1
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec dorminhoco PR=7
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec durabastante PR=4
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec dorminhoco PR=2
+Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Fim do interpretador.

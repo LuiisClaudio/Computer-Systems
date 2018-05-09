@@ -84,7 +84,7 @@ int main (int argc, char *argv[])
             vpid[i]=-1;
         
         if ((fd3 = fopen("saidaEscalonadorRT.txt", "w")) == NULL) {
-            printf("Erro na abertura de saida.txt\n");
+            printf("Erro na abertura de saidaEscalonadorRT.txt\n");
             exit(-2);
         }
         
@@ -97,7 +97,7 @@ int main (int argc, char *argv[])
         {
             if(words(mensagem) == 4)
             {
-                printf("\n\n\t\tReal Timing\n\n");
+                printf("\n\n\t\tReal Timing %s\n\n", mensagem);
                  *flag_escalonador = *flag_escalonador | 0x10;
                 while( strcmp(mensagem, VAZIO) == 0) 
                 {
@@ -296,7 +296,7 @@ int main (int argc, char *argv[])
             //Criando as áreas de memória compartilhada
             
             if ((fd3 = fopen("saidaEscalonadorPR.txt", "w")) == NULL) {
-                printf("Erro na abertura de saida.txt\n");
+                printf("Erro na abertura de saidaEscalonadorPR.txt\n");
                 exit(-2);
             }
             
@@ -314,7 +314,7 @@ int main (int argc, char *argv[])
                 sleep(1);
                 if(words(mensagem) == 3)
                 {
-                    printf("\n\n\t\tPrioridade\n\n");
+                    printf("\n\n\t\tPrioridade %s\n\n", mensagem);
                     *flag_escalonador = *flag_escalonador | 0x20;
                     while( strcmp(mensagem, VAZIO) == 0) 
                     {
@@ -420,7 +420,7 @@ int main (int argc, char *argv[])
                 
                 
                 if ((fd3 = fopen("saidaEscalonadorRR.txt", "w")) == NULL) {
-                    printf("Erro na abertura de saida.txt\n");
+                    printf("Erro na abertura de saidaEscalonadorRR.txt\n");
                     exit(-2);
                 }
                 
@@ -437,14 +437,16 @@ int main (int argc, char *argv[])
                 {
                     if(words(mensagem) == 2)
                     {
+                        printf("\n\n\n\n\tRR Leitura %d feita %s\n\n\n\n", i+1, mensagem);
+                        fprintf(fd3, "\nRR Leitura %d feita %s\n", i+1, mensagem);
+
                         *flag_escalonador = *flag_escalonador | 0x40;
                         while( strcmp(mensagem, VAZIO) == 0) {
-                        printf("Aguardando o interpretador preencher o comando\n");
-                        fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
-                        sleep(1);
+                            printf("Aguardando o interpretador preencher o comando\n");
+                            fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
+                            sleep(1);
                         }
-                        printf("\nRR Leitura %d feita\n", i+1);
-                        fprintf(fd3, "\n RR Leitura %d feita\n", i+1);
+                        
                         //Após a leitura da linha, quebra-se a string
                         //A função breakString deve quebrar os espaços da string,
                         //deixando os parâmetros em ordem:
@@ -500,7 +502,7 @@ int main (int argc, char *argv[])
                     }
                 }
                 //Esperando todos os processos lerem o interpretador
-                sleep(1);
+                sleep(4);
                 //printf("\nIniciando escalonamento dos processos:\n\n");
                 //fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
                 
@@ -550,20 +552,21 @@ int main (int argc, char *argv[])
             }
             else
             {
-                char str_aux[200];
-                strcpy(str_aux, mensagem);
-                char *token = strtok(str_aux, " ");
-                //VaiProPai
-                //kill(pid1, SIGCONT);
-
+                //No processo pai que gerenciamos qual politica que escalamento que vai executar
+                FILE* fd3;
+                if ((fd3 = fopen("GerenciadorEscalonador.txt", "w")) == NULL) {
+                    printf("Erro na abertura de GerenciadorEscalonador.txt\n");
+                    exit(-2);
+                }
                 //while para garantir que todos os processos leiam as linhas do exec.txt
                 while(strcmp(mensagem, FIM) != 0 ) 
                 {
-                    printf("Lendo as linhas do interpretador\n");
-                    sleep(1);
+                    //printf("Lendo as linhas do interpretador\n");
+                    //sleep(1);
                 }
                 printf("\n\n\n\n\tLido todas as linhas do interpretador\n\n\n");
-
+                fprintf(fd3, "\n\n\n\n\tLido todas as linhas do interpretador\n\n\n");
+                sleep(1);
                 kill(pid1, SIGSTOP);
 				kill(pid2, SIGSTOP);
 				kill(pid3, SIGSTOP);
@@ -584,15 +587,6 @@ int main (int argc, char *argv[])
                     } 
                     sleep(1);
                    
-                    //printf("\tFlag: %x, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
-   
-                    // Keep printing tokens while one of the
-                    // delimiters present in str[].
-                    /*while (token != NULL)
-                    {
-                        printf("%s\n", token);
-                        token = strtok(NULL, " ");
-                    }*/
                     if(controle_tempo[segundo_atual] == TRUE)
                     {
                         ocupado = TRUE;
@@ -606,7 +600,11 @@ int main (int argc, char *argv[])
                         //printf("Livre %ld ", time(0)%60);
                     }
                     if(ocupado == TRUE)
+                    {
                         printf("RT -->%lds\n", segundo_atual);
+                        fprintf(fd3, "RT-->%lds\n", segundo_atual);
+                        kill(pid1, SIGCONT);
+                    }
                     else
                         printf("%lds\n", segundo_atual);
                     if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
@@ -629,6 +627,7 @@ int main (int argc, char *argv[])
                         if( ( (0x2 & *flag_escalonador) == 0x0 ) ) //Processo PR ainda nao acabou
                         {
                             //printf("---Escalonamento_PR----\n");
+                            fprintf(fd3, "PR-->%lds\n", segundo_atual);
                             kill(pid2, SIGCONT);
                             kill(pid3, SIGSTOP);
                         }
@@ -637,6 +636,7 @@ int main (int argc, char *argv[])
                             if((0x4 & *flag_escalonador) == 0x0)
                             {
                                 //printf("---Escalonamento_RR----\n");
+                                fprintf(fd3, "RR-->%lds\n", segundo_atual);
                                 //kill(pid1, SIGSTOP);
                                 kill(pid2, SIGSTOP);
                                 kill(pid3, SIGCONT);

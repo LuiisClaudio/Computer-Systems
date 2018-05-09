@@ -1,24 +1,40 @@
 
 PR Leitura 1 feita
 nome: dorminhoco
-prioridade: 3
-vPpid[0].pid= 3552
-vPpid[0].prioridade = 3
+prioridade: 5
+vPpid[0].pid= 7925
+vPpid[0].prioridade = 5
 
 PR Leitura 2 feita
 nome: dorminhoco
-prioridade: 5
-vPpid[1].pid= 3556
-vPpid[1].prioridade = 5
+prioridade: 1
+vPpid[1].pid= 7927
+vPpid[1].prioridade = 1
 
 PR Leitura 3 feita
 nome: dorminhoco
-prioridade: 1
-vPpid[2].pid= 3559
-vPpid[2].prioridade = 1
-Continuando processo de pid PRIORIDADE: 3559
-Processo PRIORIDADE de pid 3559 terminou
-Continuando processo de pid PRIORIDADE: 3552
-Processo PRIORIDADE de pid 3552 terminou
-Continuando processo de pid PRIORIDADE: 3556
-Processo PRIORIDADE de pid 3556 terminou
+prioridade: 7
+vPpid[2].pid= 7928
+vPpid[2].prioridade = 7
+
+PR Leitura 4 feita
+nome: durabastante
+prioridade: 4
+vPpid[3].pid= 7929
+vPpid[3].prioridade = 4
+
+PR Leitura 5 feita
+nome: dorminhoco
+prioridade: 2
+vPpid[4].pid= 7930
+vPpid[4].prioridade = 2
+Continuando processo de pid PRIORIDADE: 7927
+Processo PRIORIDADE de pid 7927 terminou
+Continuando processo de pid PRIORIDADE: 7930
+Processo PRIORIDADE de pid 7930 terminou
+Continuando processo de pid PRIORIDADE: 7929
+Processo PRIORIDADE de pid 7929 terminou
+Continuando processo de pid PRIORIDADE: 7925
+Processo PRIORIDADE de pid 7925 terminou
+Continuando processo de pid PRIORIDADE: 7928
+Processo PRIORIDADE de pid 7928 terminou

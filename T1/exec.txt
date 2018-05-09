@@ -1,8 +1,8 @@
-Exec dorminhoco PR=3
-Exec durabastante
-Exec dorminhoco I=0 D=15
-Exec durabastante
+Exec dorminhoco I=0 D=10
+Exec durabastante I=40 D=15
 Exec dorminhoco PR=5
-Exec durabastante I=20 D=20
 Exec dorminhoco
 Exec dorminhoco PR=1
+Exec dorminhoco PR=7
+Exec durabastante PR=4
+Exec dorminhoco PR=2

@@ -1,31 +1,44 @@
 Alunos:
-Luis Claudio 
-Bruno
+Bruno d' Almeida Franco 1413385
+Luis Claudio Cantanhede Martins 1512946
 
-Os programas executados ser�o os programas "dorminhoco", "durabastante", "infinito" e "teste_mmq". Para compil�-los, s�o usadas as seguintes linhas de comando:
-gcc -o dorminhoco dorminhoco.c
-gcc -o durabastante durabastante.c
-gcc -o infinito infinito.c
-gcc -o teste_mmq teste_mmq.c mmq.c gauss.c matriz.c -lm
 
-O programa "dorminhoco" � IO-bound, pois est� constantemente recebendo uma entrada e, ap�s dormir um tempo, utiliza a informa��o dada na entrada como sa�da. Ele tamb�m possui um arquivo de entrada, denominado "dorminhocoentrada.txt".
-O programa "durabastante" � um programa que dura aproximadamente 50 segundos e simplesmente escreve uma mensagem com um intervalo de 1 segundo.
-O programa "infinito" �, como o nome diz, infinito, e escreve uma mensagem com intervalos de 1 segundo.
-O programa "teste_mmq" n�o possui sa�da nem entrada. Ele � um programa que roda infinitamente e com um pequeno intervalo(0.5 segundos), calculando valores, portanto � CPU-bound.
 
 Para a compila��o do interpretador e dos escalonadores, ser�o utilizados os seguintes comandos:
-gcc -o interpretador interpretador.c
-gcc -o escalonadorRR escalonadorRR.c
-gcc -o escalonadorPR escalonadorPR.c
-gcc -o escalonadorRT escalonadorRT.c
+gcc -o compila_arquivos compila_arquivos.c
+    Esse comando acima vai compilar todos esses codigos:
+        dorminhoco
+        durabastante
+        infinito
+        interpretador
+        controle_escalonadores
 
-Existem 3 arquivos de exec.txt com os nomes referentes aos escalonadores(RR - Round Robin, PR - Prioridade, RT - Real Time).
-O interpretador ler� apenas o arquivo que estiver nomeado "exec.txt", ou seja, basta renomear o arquivo desejado e rodar o interpretador.
-Para rodar o interpretador e o escalonador h� 2 op��es:
-1 - rodar o interpretador em background
-2 - abrir 2 terminais, um para o interpretador e outro para o escalonador
-Como ambos os programas escrevem mensagens na tela, a segunda op��o separa bem o funcionamento de cada um deles ao informarem o que est�o fazendo.
-Al�m de exibir na tela a a��o que est�o realizando, tanto o interpretador quanto os escalonadores escrevem um arquivo de log de sa�da. O nome do arquivo � "saida"<programa><tipo>, sendo <programa> "escalonador" ou "interpretador" e <tipo> apenas para escalonadores, variando entre RR, PR, e RT.
+O dorminhoco é um IO-bound, para rodar ele necesita de um arquivo "dorminhocoentrada.txt".
+
+
+O durabastante rada mais ou menos 50 segundos e escreve uma mensagem a cada um segundo.
+
+O programa "infinito" nunca acaba e escreve uma mensagem a cada um segundo.
+
+
+No arquivo exect.txt bota-se os comandos para o interpretador.c ler e passar para o controle_escalonadores.c
+
+Para rodar o interpretador e o escalonador deve:
+    
+    Abrir dois terminais:
+    O primeiro para o interpretador e deve execula-lo com o ./interpretador
+    O segundo é para o controle_escalonadores e deve executa-lo com o ./controle_escalonadores
+    (Obs: Executar nessa ordem)
+
+    Os dois terminais vão exibir o status na tela, porém é o controle_escalonadores que mostra com detalhes o escalonamento
+
+    Além da saída da tela do terminal, também há arquivos de saida com o status de cada polica de escalonamento e do interpretador.
+        -saidaEscalonadorRT.txt
+        -saidaEscalonadorPR.txt
+        -saidaEscalonadorRR.txt
+        -saidaInterpretador.txt
+
+--------Terminar-------    
 Adicionalmente, todos os escalonadores abrem um arquivo de entrada para os programas a serem executados, para caso necessitem do mesmo. A entrada dos programas � redirecionada para o arquivo e a sa�da para o arquivo "saida.txt".
 Apesar de haver o escalonamento, a ordem de escrita no arquivo "saida.txt" n�o reflete o mesmo, pois os programas s� gravam no arquivo as informa��es que tiveram de sa�da ap�s terminarem. Sendo assim, no arquivo "saida.txt", a ordem de escrita � com base em qual programa terminou primeiro.
 

@@ -13,5 +13,7 @@ int main(void)
      system("gcc -o escalonadorRT escalonadorRT.c");
      system("gcc -o limpa_memoria limpa_memoria.c");
      system("./limpa_memoria");
+     system("rm saidaEscalo*");
+     system("rm saidaInter*");
      return 0;
 }

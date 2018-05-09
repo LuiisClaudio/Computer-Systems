@@ -2,48 +2,43 @@
 RTLeitura feita
 nome: dorminhoco
 inicio: 0
-duracao: 15
-vpid[0]= 3554
-vpid[1]= 3554
-vpid[2]= 3554
-vpid[3]= 3554
-vpid[4]= 3554
-vpid[5]= 3554
-vpid[6]= 3554
-vpid[7]= 3554
-vpid[8]= 3554
-vpid[9]= 3554
-vpid[10]= 3554
-vpid[11]= 3554
-vpid[12]= 3554
-vpid[13]= 3554
-vpid[14]= 3554
+duracao: 10
+vpid[0]= 7923
+vpid[1]= 7923
+vpid[2]= 7923
+vpid[3]= 7923
+vpid[4]= 7923
+vpid[5]= 7923
+vpid[6]= 7923
+vpid[7]= 7923
+vpid[8]= 7923
+vpid[9]= 7923
 
 RTLeitura feita
 nome: durabastante
-inicio: 20
-duracao: 20
-vpid[20]= 3557
-vpid[21]= 3557
-vpid[22]= 3557
-vpid[23]= 3557
-vpid[24]= 3557
-vpid[25]= 3557
-vpid[26]= 3557
-vpid[27]= 3557
-vpid[28]= 3557
-vpid[29]= 3557
-vpid[30]= 3557
-vpid[31]= 3557
-vpid[32]= 3557
-vpid[33]= 3557
-vpid[34]= 3557
-vpid[35]= 3557
-vpid[36]= 3557
-vpid[37]= 3557
-vpid[38]= 3557
-vpid[39]= 3557
-Horario no relogio: 36 segundos
-Pausando processo REAL TIMING 3557 aos 40 segundos.
-Continuando processo REAL TIMING 3554 aos 0 segundos durante 15 segundos.
-Processo de REAL TIMING pid 3554 terminou. Removendo da lista.
+inicio: 40
+duracao: 15
+vpid[40]= 7924
+vpid[41]= 7924
+vpid[42]= 7924
+vpid[43]= 7924
+vpid[44]= 7924
+vpid[45]= 7924
+vpid[46]= 7924
+vpid[47]= 7924
+vpid[48]= 7924
+vpid[49]= 7924
+vpid[50]= 7924
+vpid[51]= 7924
+vpid[52]= 7924
+vpid[53]= 7924
+vpid[54]= 7924
+Horario no relogio: 35 segundos
+Continuando processo REAL TIMING 7924 aos 40 segundos durante 15 segundos.
+Pausando processo REAL TIMING 7924 aos 55 segundos.
+Continuando processo REAL TIMING 7923 aos 0 segundos durante 10 segundos.
+Pausando processo REAL TIMING 7923 aos 10 segundos.
+Continuando processo REAL TIMING 7924 aos 40 segundos durante 15 segundos.
+Pausando processo REAL TIMING 7924 aos 55 segundos.
+Continuando processo REAL TIMING 7923 aos 0 segundos durante 10 segundos.
+Processo de REAL TIMING pid 7923 terminou. Removendo da lista.
