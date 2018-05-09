@@ -25,48 +25,46 @@ char** breakStringRT(char* string, int* n);
 char** breakStringPR(char* string, int* n);
 char** breakStringRR(char* string, int* n);
 int compara(const void* a, const void* b);
+int words(const char *sentence);
 
 
 int main (int argc, char *argv[])
 {
     int segmentomsg, pid1, pid2, pid3;
-    FILE* fd2;
     char *mensagem;
+    int seg, *flag_escalonador;
+
 
     printf("Criando areas de memoria\n");
     //Criando a área de memória compartilhada
-    
+    seg = shmget(IPC_PRIVATE, sizeof(int), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    flag_escalonador = (int*) shmat(seg, 0, 0);
 
 
     segmentomsg = shmget(123, SIZE_SEG*sizeof(char), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
-    //seg_pid = shmget(IPC_PRIVATE, 3*sizeof(int), 0666 | IPC_CREAT);//IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
-    
-    //printf("shmID = %d\n", segmentomsg);
     if(segmentomsg < 0)
     {
         printf("Failed to create shm\n");
         exit(1);
     }
-    //Associando as área às variáveis pid e i
     mensagem = (char*) shmat(segmentomsg, 0, 0);
-    //printf("%s\n", mensagem);
     if(mensagem < 0)
     {
         printf("Falha no attach");
         exit(1);
     }
-    //pid = (int*) shmat(segmentomsg, 0, 0);
     
     pid1 = fork();
     if(pid1 == 0)
     {
+        //EscalonadorRT
         int fd1, fd2, quantidadeParametros;
         FILE* fd3;
         int inicio, fim, skip, pid, programasExecutando, anterior;
         char* commands[]={NULL}, **linha, comando[200];
         int vpid[60], i, j;
         
-         //@@@
+        *flag_escalonador = 3;
         //Real Time - colocar todos os pids como -1, como se não houvesse
         //processo para ser executado naquele segundo
         for(i=0;i<60;i++)
@@ -84,10 +82,11 @@ int main (int argc, char *argv[])
         
         //Enquanto ainda houverem linhas para serem lidas...
         while( strcmp(mensagem, FIM) != 0 ) {
-            while( strcmp(mensagem, VAZIO) == 0) {
-            printf("Aguardando o interpretador preencher o comando\n");
-            fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
-            sleep(1);
+            while( strcmp(mensagem, VAZIO) == 0) 
+            {
+                printf("Aguardando o interpretador preencher o comando\n");
+                fprintf(fd3, "Aguardando o interpretador preencher o comando\n");
+                sleep(1);
             }
             printf("\nLeitura feita\n");
             fprintf(fd3, "\nLeitura feita\n");
@@ -95,9 +94,6 @@ int main (int argc, char *argv[])
             //A função breakString deve quebrar os espaços da string,
             //deixando os parâmetros em ordem:
             //Para RT: [0](nome) [1](inicio) [2](duração)
-            //printf("\n00000\n");//@@@
-            //return 0; //###
-            //printf("---->>>>%s\n", mensagem); //@@@
             linha = breakStringRT(mensagem, &quantidadeParametros);
             strcpy(mensagem, VAZIO);
             //Se a variável skip for diferente de zero representa que já
@@ -197,9 +193,15 @@ int main (int argc, char *argv[])
         
         for(i=i%60;i<60;i++) 
         {
+            //printf("\tProgramas executando: %d\n", programasExecutando);
+            if(programasExecutando == 0)
+            {
+                break;
+            }
             anterior = vpid[abs(i+59)%60];
             if (vpid[i] != anterior && anterior != -1) {
                 if (waitpid(anterior, 0, 0 | WNOHANG) != 0) {
+                    programasExecutando--;
                     printf("Processo de pid %d terminou. Removendo da lista.\n", anterior);
                     fprintf(fd3, "Processo de pid %d terminou. Removendo da lista.\n", anterior);
                     for(j=abs(i+59)%60;j>=0 && vpid[j] == anterior;j--)
@@ -249,9 +251,11 @@ int main (int argc, char *argv[])
         
         fclose(fd3);
         return 0;
+        //FimEscalonadorRT
     }
     else
     {
+        //EscalonadorPR
         pid2 = fork();
         if(pid2 == 0)
         {
@@ -362,11 +366,13 @@ int main (int argc, char *argv[])
             
             fclose(fd3);
             return 0;
+            //FimEscalonadorPR
         }
         else{
             pid3 = fork();
             if(pid3 == 0)
             {
+                //EscalonadorRR
                 printf("pid3\n");
                 int fd1, fd2, quantidadeParametros, j;
                 FILE* fd3;
@@ -468,45 +474,73 @@ int main (int argc, char *argv[])
                     fprintf(fd3, "Continuando processo de pid %d\n", vpid[i]);
                     kill(vpid[i], SIGCONT);
                     sleep(1);
-                    if (waitpid(vpid[i], 0, 0 | WNOHANG) != 0) {
+                    if (waitpid(vpid[i], 0, 0 | WNOHANG) != 0) 
+                    {
                         printf("Processo de pid %d terminou\n", vpid[i]);
                         fprintf(fd3, "Processo de pid %d terminou\n", vpid[i]);
                         vpid[i] = -1;
                     }
-                    else {
+                    else 
+                    {
                         printf("Pausando processo de pid %d\n", vpid[i]);
                         fprintf(fd3, "Pausando processo de pid %d\n", vpid[i]);
                         kill(vpid[i], SIGSTOP);
                     }
                     }
                     if (i == qtd-1 && processos_executando == 0)
-                    break;
+                        break;
                     else if (i == qtd-1) {
-                    i = -1;
-                    processos_executando = 0;
+                        i = -1;
+                        processos_executando = 0;
                     }
                 }
-                
+                *flag_escalonador = 2;
                 printf("Fim do escalonamento.\n");
                 fprintf(fd3, "Fim do escalonamento.\n");
                 
                 fclose(fd3);
                 return 0;
+                //FimEscalonadorRR
             }
             else
             {
+                //VaiProPai
                 //kill(pid1, SIGCONT);
                 kill(pid1, SIGSTOP);
 				kill(pid2, SIGSTOP);
 				kill(pid3, SIGSTOP);
+                *flag_escalonador = -1;
 
                 while(1)
                 {
                     //kill(pid1, SIGCONT);
-                    kill(pid3, SIGSTOP);
-                    printf("Entrei\n");
-                    kill(pid3, SIGCONT);
+                    //kill(pid1, SIGSTOP);
+                    //printf("\t%s\n", mensagem);
+                    //printf("\tWords = %i\n", words(mensagem));
+                    //kill(pid1, SIGCONT);
                     sleep(1);
+                    printf("\tFlag: %d, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
+                    if(words(mensagem) == 4)// && *flag_escalonador == -1)
+                    {
+                        //Matar o PR e RR
+                        kill(pid2, SIGSTOP);
+                        kill(pid3, SIGSTOP);
+                        kill(pid1, SIGCONT);
+                    }
+                    else if(words(mensagem) == 3 && (*flag_escalonador == 2 || *flag_escalonador == -1)) 
+                    {
+                        kill(pid1, SIGSTOP);
+                        kill(pid3, SIGSTOP);
+                        kill(pid2, SIGCONT);
+                        
+                    }
+                    /*else
+                    {
+                        kill(pid1, SIGSTOP);
+				        kill(pid2, SIGSTOP);
+				        kill(pid3, SIGSTOP);
+                        printf("\t%s = %i\n", mensagem, words(mensagem));
+                    }*/
                 }
             }
         }
@@ -527,6 +561,31 @@ int main (int argc, char *argv[])
 
 
 
+
+
+
+
+
+
+int words(const char *sentence)
+{
+    int count=0,i,len;
+    char lastC;
+    len=strlen(sentence);
+    if(len > 0)
+    {
+        lastC = sentence[0];
+    }
+    for(i=0; i<=len; i++)
+    {
+        if((sentence[i]==' ' || sentence[i]=='\0') && lastC != ' ')
+        {
+            count++;
+        }
+        lastC = sentence[i];
+    }
+    return count;
+}
 
 
 char** breakStringRT(char* string, int* n)

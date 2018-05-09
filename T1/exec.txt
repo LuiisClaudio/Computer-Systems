@@ -1,5 +1,3 @@
-Exec dorminhoco
-Exec infinito
-Exec durabastante
-Exec dorminhoco
-Exec teste_mmq
+Exec dorminhoco I=1 D=20
+Exec dorminhoco I=30 D=15
+Exec dorminhoco PR=2
