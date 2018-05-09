@@ -13,7 +13,7 @@ int main(void)
 {
     int segmentomsg;
     char *comando;
-    segmentomsg = shmget(1234, 200*sizeof(char), IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
+    segmentomsg = shmget(123, 200*sizeof(char), IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
     comando = (char*) shmat(segmentomsg, 0, 0);
 
     shmdt (comando);

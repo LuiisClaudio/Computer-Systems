@@ -1,7 +1,5 @@
-Exec dorminhoco PR=5
-Exec durabastante PR=6
-Exec dorminhoco PR=1
-Exec dorminhoco PR=2
-Exec dorminhoco PR=7
-Exec durabastante PR=4
-Exec dorminhoco PR=2
+Exec dorminhoco
+Exec infinito
+Exec durabastante
+Exec dorminhoco
+Exec teste_mmq

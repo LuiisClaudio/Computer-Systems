@@ -1,5 +1,15 @@
 Comando obtido. Comando:
-Exec dorminhoco PR=5
+Exec dorminhoco
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
@@ -8,21 +18,15 @@ Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec durabastante PR=6
+Exec infinito
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec dorminhoco PR=1
+Exec durabastante
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec dorminhoco PR=2
+Exec dorminhoco
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec dorminhoco PR=7
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec durabastante PR=4
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec dorminhoco PR=2
+Exec teste_mmq
 Aguardando o escalonador limpar o comando
 Fim do interpretador.
