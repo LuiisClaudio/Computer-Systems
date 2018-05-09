@@ -77,7 +77,7 @@ int main (int argc, char *argv[])
         int inicio, fim, skip, pid, programasExecutando, anterior;
         char* commands[]={NULL}, **linha, comando[200];
         int vpid[60], i, j;
-        printf("\n\n\t\tReat Timing\n\n");
+        //printf("\n\n\t\tReal Timing\n\n");
         //Real Time - colocar todos os pids como -1, como se não houvesse
         //processo para ser executado naquele segundo
         for(i=0;i<60;i++)
@@ -97,6 +97,7 @@ int main (int argc, char *argv[])
         {
             if(words(mensagem) == 4)
             {
+                printf("\n\n\t\tReal Timing\n\n");
                  *flag_escalonador = *flag_escalonador | 0x10;
                 while( strcmp(mensagem, VAZIO) == 0) 
                 {
@@ -198,8 +199,8 @@ int main (int argc, char *argv[])
             }
         }
         sleep(1);//Para sincronizar os escalonamentos
-        printf("\nIniciando escalonamento dos processos:\n\n");
-        fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
+        //printf("\nIniciando escalonamento dos processos:\n\n");
+        //fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
         
         //Código do respectivo escalonador
         
@@ -251,8 +252,8 @@ int main (int argc, char *argv[])
                 programasExecutando++;
             }
             else if (vpid[i] == -1) {
-                printf("Nao ha processo comecando aos %d segundos.\n", i);
-                fprintf(fd3, "Nao ha processo comecando aos %d segundos.\n", i);
+                //printf("Nao ha processo comecando aos %d segundos.\n", i);
+                //fprintf(fd3, "Nao ha processo comecando aos %d segundos.\n", i);
             }
             if (i==59 && programasExecutando != 0) {
                 i=-1;
@@ -269,8 +270,8 @@ int main (int argc, char *argv[])
             sleep(1);
         }
         
-        printf("FIM DO ESCALONAMENTO REAL TIMING\n");
-        fprintf(fd3, "Fim do escalonamento.\n");
+        //printf("FIM DO ESCALONAMENTO REAL TIMING\n");
+        //fprintf(fd3, "Fim do escalonamento.\n");
         
         fclose(fd3);
         return 0;
@@ -290,8 +291,8 @@ int main (int argc, char *argv[])
             char* commands[]={NULL}, **linha, comando[200];
             int i, num;
             tpPrioridade vPpid[100];
-            printf("\n\n\t\tPrioridade\n\n");
-            printf("Pegando area de memoria\n");
+            //printf("\n\n\t\tPrioridade\n\n");
+            //printf("Pegando area de memoria\n");
             //Criando as áreas de memória compartilhada
             
             if ((fd3 = fopen("saidaEscalonadorPR.txt", "w")) == NULL) {
@@ -310,8 +311,10 @@ int main (int argc, char *argv[])
             //Enquanto ainda houverem linhas para serem lidas...
             while(strcmp(mensagem, FIM) != 0) 
             {
+                sleep(1);
                 if(words(mensagem) == 3)
                 {
+                    printf("\n\n\t\tPrioridade\n\n");
                     *flag_escalonador = *flag_escalonador | 0x20;
                     while( strcmp(mensagem, VAZIO) == 0) 
                     {
@@ -378,8 +381,8 @@ int main (int argc, char *argv[])
             }
             //Esperando todos os processos lerem o interpretador
             sleep(1);
-            printf("\nIniciando escalonamento dos processos:\n\n");
-            fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
+            //printf("\nIniciando escalonamento dos processos:\n\n");
+            //fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
             
 
             //Código do respectivo escalonador
@@ -399,7 +402,7 @@ int main (int argc, char *argv[])
             *flag_escalonador = *flag_escalonador | 0x2;
 
             fclose(fd3);
-            printf("FIM DO ESCALONAMENTO PRIORIDADE\n");
+            //printf("FIM DO ESCALONAMENTO PRIORIDADE\n");
             return 0;
             //FimEscalonadorPR
         }
@@ -498,15 +501,15 @@ int main (int argc, char *argv[])
                 }
                 //Esperando todos os processos lerem o interpretador
                 sleep(1);
-                printf("\nIniciando escalonamento dos processos:\n\n");
-                fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
+                //printf("\nIniciando escalonamento dos processos:\n\n");
+                //fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
                 
                 //Código do respectivo escalonador
                 
                 qtd = i;
                 
-                printf("Iniciando escalonador RR\n");
-                fprintf(fd3, "Iniciando escalonador RR\n");
+                //printf("Iniciando escalonador RR\n");
+                //fprintf(fd3, "Iniciando escalonador RR\n");
                 for(i=0; i < qtd; i++)
                 {
                     if (vpid[i] != -1) {
@@ -538,8 +541,8 @@ int main (int argc, char *argv[])
 
                 *flag_escalonador = *flag_escalonador & 0xBF; //1011 1111
                 *flag_escalonador = *flag_escalonador | 0x4;
-                printf("FIM DO ESCALONAMENTO ROBIN\n");
-                fprintf(fd3, "Fim do escalonamento.\n");
+                //printf("FIM DO ESCALONAMENTO ROBIN\n");
+                //fprintf(fd3, "Fim do escalonamento.\n");
                 
                 fclose(fd3);
                 return 0;
@@ -557,7 +560,9 @@ int main (int argc, char *argv[])
                 while(strcmp(mensagem, FIM) != 0 ) 
                 {
                     printf("Lendo as linhas do interpretador\n");
+                    sleep(1);
                 }
+                printf("\n\n\n\n\tLido todas as linhas do interpretador\n\n\n");
 
                 kill(pid1, SIGSTOP);
 				kill(pid2, SIGSTOP);
@@ -568,6 +573,7 @@ int main (int argc, char *argv[])
                 while(1)
                 {
                     int ocupado;
+                    long int segundo_atual = time(0)%60;
                     
                     if (*flag_escalonador == 0x7) //significa que todos os escalonamentos acabaram
                     {
@@ -577,7 +583,9 @@ int main (int argc, char *argv[])
                         break;
                     } 
                     sleep(1);
-                    printf("\tFlag: %x, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
+                    //if(ocupado == FALSE)
+                    printf("%lds\n", segundo_atual);
+                    //printf("\tFlag: %x, %s = %i\n", *flag_escalonador, mensagem, words(mensagem));
    
                     // Keep printing tokens while one of the
                     // delimiters present in str[].
@@ -586,22 +594,24 @@ int main (int argc, char *argv[])
                         printf("%s\n", token);
                         token = strtok(NULL, " ");
                     }*/
-                    if(controle_tempo[time(0)%60] == TRUE)
+                    if(controle_tempo[segundo_atual] == TRUE)
                     {
                         ocupado = TRUE;
-                        printf("Ocupado %ld ", time(0)%60);
+                        //printf("Ocupado %ld ", time(0)%60);
                     }
                     else
                     {
                         ocupado = FALSE;
-                        printf("Livre %ld ", time(0)%60);
+                        //printf("Livre %ld ", time(0)%60);
                     }
                 
                     if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
                     {
-                        printf("--->RT\n");
+                        //if(ocupado == TRUE)
+                            //printf("---Escalonamento_RT----\n");
                         //Matar o PR e RR
                         kill(pid2, SIGSTOP);
+                        kill(pid3, SIGSTOP);
                         kill(pid1, SIGCONT);
                     }
                     else
@@ -614,7 +624,7 @@ int main (int argc, char *argv[])
                         
                         if( ( (0x2 & *flag_escalonador) == 0x0 ) ) //Processo PR ainda nao acabou
                         {
-                            printf("Processo PR \n");
+                            //printf("---Escalonamento_PR----\n");
                             kill(pid2, SIGCONT);
                             kill(pid3, SIGSTOP);
                         }
@@ -622,7 +632,7 @@ int main (int argc, char *argv[])
                         {
                             if((0x4 & *flag_escalonador) == 0x0)
                             {
-                                printf("Processo RR \n");
+                                //printf("---Escalonamento_RR----\n");
                                 //kill(pid1, SIGSTOP);
                                 kill(pid2, SIGSTOP);
                                 kill(pid3, SIGCONT);

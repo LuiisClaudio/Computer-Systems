@@ -1,5 +1,7 @@
 
-Iniciando escalonamento dos processos:
+ RR Leitura 1 feita
+nome: durabastante
 
-Iniciando escalonador RR
-Fim do escalonamento.
+vpid[0]= 1249
+
+ RR Leitura 2 feita

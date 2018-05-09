@@ -76,7 +76,7 @@ int main (int argc, char *argv[])
       //interpretador dorme.
       printf("Aguardando o escalonador limpar o comando\n");
       fprintf(fd2, "Aguardando o escalonador limpar o comando\n");
-      //sleep(1);
+      sleep(1);
     }
   }
   strcpy(comando, FIM);
