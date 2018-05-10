@@ -279,7 +279,7 @@ int main (int argc, char *argv[])
         }
         
         //printf("FIM DO ESCALONAMENTO REAL TIMING\n");
-        //fprintf(fd3, "Fim do escalonamento.\n");
+        fprintf(fd3, "Fim do escalonamento.\n");
         
         fclose(fd3);
         return 0;
@@ -390,7 +390,7 @@ int main (int argc, char *argv[])
             //Esperando todos os processos lerem o interpretador
             sleep(1);
             //printf("\nIniciando escalonamento dos processos:\n\n");
-            //fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
+            fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
             
 
             //Código do respectivo escalonador
@@ -512,14 +512,14 @@ int main (int argc, char *argv[])
                 //Esperando todos os processos lerem o interpretador
                 sleep(4);
                 //printf("\nIniciando escalonamento dos processos:\n\n");
-                //fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
+                fprintf(fd3, "\nIniciando escalonamento dos processos:\n\n");
                 
                 //Código do respectivo escalonador
                 
                 qtd = i;
                 
                 //printf("Iniciando escalonador RR\n");
-                //fprintf(fd3, "Iniciando escalonador RR\n");
+                fprintf(fd3, "Iniciando escalonador RR\n");
                 for(i=0; i < qtd; i++)
                 {
                     if (vpid[i] != -1) {
@@ -552,7 +552,7 @@ int main (int argc, char *argv[])
                 *flag_escalonador = *flag_escalonador & 0xBF; //1011 1111
                 *flag_escalonador = *flag_escalonador | 0x4;
                 //printf("FIM DO ESCALONAMENTO ROBIN\n");
-                //fprintf(fd3, "Fim do escalonamento.\n");
+                fprintf(fd3, "Fim do escalonamento ROUND ROBIN.\n");
                 
                 fclose(fd3);
                 return 0;

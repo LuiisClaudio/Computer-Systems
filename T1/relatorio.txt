@@ -7,17 +7,17 @@ Luis Claudio Cantanhede Martins 1512946
 Para a compilação do interpretador e dos escalonadores, serão utilizados os seguintes comandos:
 gcc -o compila_arquivos compila_arquivos.c
     Esse comando acima vai compilar todos esses codigos:
-        dorminhoco
-        durabastante
-        infinito
+        snorlax
+        demorado
+        nunca_acaba
         interpretador
         controle_escalonadores
 
-O dorminhoco é um IO-bound, para rodar ele necesita de um arquivo "dorminhocoentrada.txt".
+O snorlax é um IO-bound, para rodar ele necesita de um arquivo "snorlaxentrada.txt".
 
-O durabastante rada mais ou menos 50 segundos e escreve uma mensagem a cada um segundo.
+O demorado rada mais ou menos 50 segundos e escreve uma mensagem a cada um segundo, sendo CPU-bound.
 
-O programa "infinito" nunca acaba e escreve uma mensagem a cada um segundo.
+O programa "nunca_acaba" nunca acaba e escreve uma mensagem a cada um segundo.
 
 No arquivo exect.txt bota-se os comandos para o interpretador.c ler e passar para o controle_escalonadores.c
 
@@ -38,20 +38,20 @@ Para rodar o interpretador e o escalonador deve:
 
 Na parte do escalonador para tratar Round Robin, utilizamos fatias de tempo de 1 segundo entre os programas na ordem em que estão no arquivo, este sendo dentre todos os escalonadores o de menor prioridade e tendo que esperar o termino de todos os outros.
 Na parte do escalonador de Prioridades , caso a entrada seja de prioridade menor do que esta sendo executado espera o termino do atual , caso contrario o de prioridade menor que estiver sendo executado e pausado e o novo de maior prioridade começa.
-Na parte do escalonador de Real Time, preenche-se um vetor de 60 posi��es com pids, representando assim o in�cio do programa e a dura��o do mesmo. Caso haja ou conflito de intervalo com um programa j� existente, o novo ser� descartado, assim como se a soma do inicio com a dura��o for maior que 60.
+Na parte do escalonador de Real Time, preenche-se um vetor de 60 posi��es com pids, representando assim o in�cio do programa e a dura��o do mesmo. Oreal Time tem a maior prioridade entre todos os escalonadores então sempre vai ser executado ao entrar, a não ser caso haja conflito de intervalo com um programa j� existente, o novo ser� descartado, assim como se a soma do inicio com a dura��o for maior que 60.
 
 Como existem programas infinitos , para que termine os processamentos todos tem que cancelar com o comando Ctrl+C.
 
-No exemplo testado foram uzados os programs "dorminhoco" e "durabastante" , que no arquivo exec.txt estão assim:
+No exemplo testado foram uzados os programs "snorlax" e "demorado" , que no arquivo exec.txt estão assim:
 
-dorminhoco I=0 D=10
-durabastante I=40 D=15
-dorminhoco PR=5
-dorminhoco
-dorminhoco PR=1
-dorminhoco PR=7
-durabastante PR=4
-dorminhoco PR=2
+snorlax I=0 D=10
+demorado I=40 D=15
+snorlax PR=5
+snorlax
+snorlax PR=1
+snorlax PR=7
+demorado PR=4
+snorlax PR=2
 
 onde são especificados o tipo de escalonamento utilizado conforme pedido no enunciado do trabalho.
 

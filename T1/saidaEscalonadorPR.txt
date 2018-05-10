@@ -1,40 +1,43 @@
 
 PR Leitura 1 feita
-nome: dorminhoco
+nome: snorlax
 prioridade: 5
-vPpid[0].pid= 12974
+vPpid[0].pid= 13870
 vPpid[0].prioridade = 5
 
 PR Leitura 2 feita
-nome: dorminhoco
+nome: snorlax
 prioridade: 1
-vPpid[1].pid= 12977
+vPpid[1].pid= 13872
 vPpid[1].prioridade = 1
 
 PR Leitura 3 feita
-nome: dorminhoco
+nome: snorlax
 prioridade: 7
-vPpid[2].pid= 12978
+vPpid[2].pid= 13874
 vPpid[2].prioridade = 7
 
 PR Leitura 4 feita
-nome: durabastante
+nome: demorado
 prioridade: 4
-vPpid[3].pid= 12979
+vPpid[3].pid= 13882
 vPpid[3].prioridade = 4
 
 PR Leitura 5 feita
-nome: dorminhoco
+nome: snorlax
 prioridade: 2
-vPpid[4].pid= 12980
+vPpid[4].pid= 13884
 vPpid[4].prioridade = 2
-Continuando processo de pid PRIORIDADE: 12977
-Processo PRIORIDADE de pid 12977 terminou
-Continuando processo de pid PRIORIDADE: 12980
-Processo PRIORIDADE de pid 12980 terminou
-Continuando processo de pid PRIORIDADE: 12979
-Processo PRIORIDADE de pid 12979 terminou
-Continuando processo de pid PRIORIDADE: 12974
-Processo PRIORIDADE de pid 12974 terminou
-Continuando processo de pid PRIORIDADE: 12978
-Processo PRIORIDADE de pid 12978 terminou
+
+Iniciando escalonamento dos processos:
+
+Continuando processo de pid PRIORIDADE: 13872
+Processo PRIORIDADE de pid 13872 terminou
+Continuando processo de pid PRIORIDADE: 13884
+Processo PRIORIDADE de pid 13884 terminou
+Continuando processo de pid PRIORIDADE: 13882
+Processo PRIORIDADE de pid 13882 terminou
+Continuando processo de pid PRIORIDADE: 13870
+Processo PRIORIDADE de pid 13870 terminou
+Continuando processo de pid PRIORIDADE: 13874
+Processo PRIORIDADE de pid 13874 terminou

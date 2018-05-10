@@ -1,11 +1,22 @@
 
-RR Leitura 1 feita Exec dorminhoco
-nome: dorminhoco
+RR Leitura 1 feita Exec snorlax
+nome: snorlax
 
-vpid[0]= 12976
-Continuando processo ROUND-ROBIN de pid 12976
-Pausando processo ROUND-ROBIN de pid 12976
-Continuando processo ROUND-ROBIN de pid 12976
-Pausando processo ROUND-ROBIN de pid 12976
-Continuando processo ROUND-ROBIN de pid 12976
-Processo ROUND-ROBIN de pid 12976 terminou
+vpid[0]= 13871
+
+Iniciando escalonamento dos processos:
+
+Iniciando escalonador RR
+Continuando processo ROUND-ROBIN de pid 13871
+Pausando processo ROUND-ROBIN de pid 13871
+Continuando processo ROUND-ROBIN de pid 13871
+Pausando processo ROUND-ROBIN de pid 13871
+Continuando processo ROUND-ROBIN de pid 13871
+Pausando processo ROUND-ROBIN de pid 13871
+Continuando processo ROUND-ROBIN de pid 13871
+Pausando processo ROUND-ROBIN de pid 13871
+Continuando processo ROUND-ROBIN de pid 13871
+Pausando processo ROUND-ROBIN de pid 13871
+Continuando processo ROUND-ROBIN de pid 13871
+Processo ROUND-ROBIN de pid 13871 terminou
+Fim do escalonamento ROUND ROBIN.

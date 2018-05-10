@@ -1,0 +1,50 @@
+
+RTLeitura feita
+nome: snorlax
+inicio: 0
+duracao: 10
+vpid[0]= 13868
+vpid[1]= 13868
+vpid[2]= 13868
+vpid[3]= 13868
+vpid[4]= 13868
+vpid[5]= 13868
+vpid[6]= 13868
+vpid[7]= 13868
+vpid[8]= 13868
+vpid[9]= 13868
+
+RTLeitura feita
+nome: demorado
+inicio: 40
+duracao: 15
+vpid[40]= 13869
+vpid[41]= 13869
+vpid[42]= 13869
+vpid[43]= 13869
+vpid[44]= 13869
+vpid[45]= 13869
+vpid[46]= 13869
+vpid[47]= 13869
+vpid[48]= 13869
+vpid[49]= 13869
+vpid[50]= 13869
+vpid[51]= 13869
+vpid[52]= 13869
+vpid[53]= 13869
+vpid[54]= 13869
+Horario no relogio: 51 segundos
+Pausando processo REAL TIMING 13869 aos 55 segundos.
+Continuando processo REAL TIMING 13868 aos 0 segundos durante 10 segundos.
+Pausando processo REAL TIMING 13868 aos 10 segundos.
+Continuando processo REAL TIMING 13869 aos 40 segundos durante 15 segundos.
+Pausando processo REAL TIMING 13869 aos 55 segundos.
+Continuando processo REAL TIMING 13868 aos 0 segundos durante 10 segundos.
+Processo de REAL TIMING pid 13868 terminou. Removendo da lista.
+Continuando processo REAL TIMING 13869 aos 40 segundos durante 15 segundos.
+Pausando processo REAL TIMING 13869 aos 55 segundos.
+Continuando processo REAL TIMING 13869 aos 40 segundos durante 15 segundos.
+Pausando processo REAL TIMING 13869 aos 55 segundos.
+Continuando processo REAL TIMING 13869 aos 40 segundos durante 15 segundos.
+Processo de REAL TIMING pid 13869 terminou. Removendo da lista.
+Fim do escalonamento.

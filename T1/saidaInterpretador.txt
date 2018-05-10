@@ -1,33 +1,34 @@
 Comando obtido. Comando:
-Exec dorminhoco I=0 D=10
+Exec snorlax I=0 D=10
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec durabastante I=40 D=15
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec dorminhoco PR=5
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec dorminhoco
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec dorminhoco PR=1
-Aguardando o escalonador limpar o comando
-Comando obtido. Comando:
-Exec dorminhoco PR=7
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec durabastante PR=4
+Exec demorado I=40 D=15
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec snorlax PR=5
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec snorlax
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec snorlax PR=1
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec snorlax PR=7
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
-Exec dorminhoco PR=2
+Exec demorado PR=4
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Comando obtido. Comando:
+Exec snorlax PR=2
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
 Fim do interpretador.
