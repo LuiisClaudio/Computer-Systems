@@ -1,0 +1,57 @@
+Alunos:
+Bruno d' Almeida Franco 1413385
+Luis Claudio Cantanhede Martins 1512946
+
+
+
+Para a compilação do interpretador e dos escalonadores, serão utilizados os seguintes comandos:
+gcc -o compila_arquivos compila_arquivos.c
+    Esse comando acima vai compilar todos esses codigos:
+        snorlax
+        demorado
+        nunca_acaba
+        interpretador
+        controle_escalonadores
+
+O snorlax é um IO-bound, para rodar ele necesita de um arquivo "snorlaxentrada.txt".
+
+O demorado rada mais ou menos 50 segundos e escreve uma mensagem a cada um segundo, sendo CPU-bound.
+
+O programa "nunca_acaba" nunca acaba e escreve uma mensagem a cada um segundo.
+
+No arquivo exect.txt bota-se os comandos para o interpretador.c ler e passar para o controle_escalonadores.c
+
+Para rodar o interpretador e o escalonador deve:
+    
+    Abrir dois terminais:
+    O primeiro para o interpretador e deve execula-lo com o ./interpretador
+    O segundo é para o controle_escalonadores e deve executa-lo com o ./controle_escalonadores
+    (Obs: Executar nessa ordem)
+
+    Os dois terminais vão exibir o status na tela, porém é o controle_escalonadores que mostra com detalhes o escalonamento
+
+    Além da saída da tela do terminal, também há arquivos de saida com o status de cada polica de escalonamento e do interpretador.
+        -saidaEscalonadorRT.txt
+        -saidaEscalonadorPR.txt
+        -saidaEscalonadorRR.txt
+        -saidaInterpretador.txt
+
+Na parte do escalonador para tratar Round Robin, utilizamos fatias de tempo de 1 segundo entre os programas na ordem em que estão no arquivo, este sendo dentre todos os escalonadores o de menor prioridade e tendo que esperar o termino de todos os outros.
+Na parte do escalonador de Prioridades , caso a entrada seja de prioridade menor do que esta sendo executado espera o termino do atual , caso contrario o de prioridade menor que estiver sendo executado e pausado e o novo de maior prioridade começa.
+Na parte do escalonador de Real Time, preenche-se um vetor de 60 posi��es com pids, representando assim o in�cio do programa e a dura��o do mesmo. Oreal Time tem a maior prioridade entre todos os escalonadores então sempre vai ser executado ao entrar, a não ser caso haja conflito de intervalo com um programa j� existente, o novo ser� descartado, assim como se a soma do inicio com a dura��o for maior que 60.
+
+Como existem programas infinitos , para que termine os processamentos todos tem que cancelar com o comando Ctrl+C.
+
+No exemplo testado foram uzados os programs "snorlax" e "demorado" , que no arquivo exec.txt estão assim:
+
+snorlax I=0 D=10
+demorado I=40 D=15
+snorlax PR=5
+snorlax
+snorlax PR=1
+snorlax PR=7
+demorado PR=4
+snorlax PR=2
+
+onde são especificados o tipo de escalonamento utilizado conforme pedido no enunciado do trabalho.
+

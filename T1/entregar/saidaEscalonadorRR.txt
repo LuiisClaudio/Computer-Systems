@@ -1,0 +1,7 @@
+
+RR Leitura 1 feita Exec snorlax
+nome: snorlax
+
+vpid[0]= 923
+
+RR Leitura 2 feita Exec snorlax PR=1

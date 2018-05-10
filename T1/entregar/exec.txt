@@ -1,0 +1,8 @@
+Exec snorlax I=0 D=10
+Exec demorado I=40 D=15
+Exec snorlax PR=5
+Exec snorlax
+Exec snorlax PR=1
+Exec snorlax PR=7
+Exec demorado PR=4
+Exec snorlax PR=2

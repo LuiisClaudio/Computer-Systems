@@ -1,0 +1,8 @@
+
+PR Leitura 1 feita
+nome: snorlax
+prioridade: 5
+vPpid[0].pid= 922
+vPpid[0].prioridade = 5
+
+PR Leitura 2 feita
