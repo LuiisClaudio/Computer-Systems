@@ -23,9 +23,9 @@ typedef struct tipoPrioridade {
   int prioridade;
 } tpPrioridade;
 
-char** breakStringRT(char* string, int* n);
-char** breakStringPR(char* string, int* n);
-char** breakStringRR(char* string, int* n);
+char** separaPalavraRT(char* string, int* n);
+char** separaPalavraPR(char* string, int* n);
+char** separaPalavraRR(char* string, int* n);
 int compara(const void* a, const void* b);
 int words(const char *sentence);
 
@@ -74,12 +74,12 @@ int main (int argc, char *argv[])
         //EscalonadorRT
         int fd1, fd2, quantidadeParametros;
         FILE* fd3;
-        int inicio, fim, skip, pid, programasExecutando, anterior;
+        int inicio, fim, intervalo_preenchido, pid, programasExecutando, qtdprogramasLidos, anterior;
         char* commands[]={NULL}, **linha, comando[200];
         int vpid[60], i, j;
-        //printf("\n\n\t\tReal Timing\n\n");
-        //Real Time - colocar todos os pids como -1, como se não houvesse
-        //processo para ser executado naquele segundo
+        qtdprogramasLidos = 0;
+
+        //Marcando o intervalo dos processos
         for(i=0;i<60;i++)
             vpid[i]=-1;
         
@@ -98,6 +98,7 @@ int main (int argc, char *argv[])
             if(words(mensagem) == 4)
             {
                 printf("\n\n\t\tReal Timing %s\n\n", mensagem);
+                qtdprogramasLidos++;
                  *flag_escalonador = *flag_escalonador | 0x10;
                 while( strcmp(mensagem, VAZIO) == 0) 
                 {
@@ -107,23 +108,24 @@ int main (int argc, char *argv[])
                 }
                 printf("\nRTLeitura feita\n");
                 fprintf(fd3, "\nRTLeitura feita\n");
+
                 //Após a leitura da linha, quebra-se a string
-                //A função breakString deve quebrar os espaços da string,
+                //A função separaPalavra deve quebrar os espaços da string,
                 //deixando os parâmetros em ordem:
                 //Para RT: [0](nome) [1](inicio) [2](duração)
-                linha = breakStringRT(mensagem, &quantidadeParametros);
+                linha = separaPalavraRT(mensagem, &quantidadeParametros);
                 strcpy(mensagem, VAZIO);
-                //Se a variável skip for diferente de zero representa que já
+                //Se a variável intervalo_preenchido for diferente de zero representa que já
                 //existe um programa rodando no intervalo do programa sendo
                 //iniciado, portanto este será ignorado
-                skip=0;
+                intervalo_preenchido=0;
                 //Com a quebra da string, teremos o nome do programa a ser executado
                 //sempre no índice 0
                 printf("nome: %s\ninicio: %s\nduracao: %s\n", linha[0], linha[1], linha[2]);
                 fprintf(fd3, "nome: %s\ninicio: %s\nduracao: %s\n", linha[0], linha[1], linha[2]);
                 //Por ser RT, precisamos verificar se o programa irá
                 //sobrepor algum outro já existente ou se I+D>=60.
-                //A variável skip irá determinar se devemos pular o programa
+                //A variável intervalo_preenchido irá determinar se devemos pular o programa
                 //ou não.
 
                 //printf("\n1111111111\n");//@@@
@@ -136,18 +138,18 @@ int main (int argc, char *argv[])
                 fim=inicio+fim-1;
                 //printf("Aqui 1");
                 if (fim > 60)
-                    skip++;
+                    intervalo_preenchido++;
                 //printf("Aqui 2");
                 for(i=inicio;i<=fim;i++) {
                     if(vpid[i]!=-1) {
-                        skip++;
+                        intervalo_preenchido++;
                         break;
                     }
                 }    
             
                 //printf("\n222\n");//@@@    
                 //return 0; //tirar depis ###
-                if ( skip == 0 && !(pid = fork()) ) {
+                if ( intervalo_preenchido == 0 && !(pid = fork()) ) {
                     //Processo filho
                     //Redirecionar a entrada do filho para a entrada
                     //do programa a ser executado. O nome do arquivo
@@ -175,7 +177,7 @@ int main (int argc, char *argv[])
                     raise(SIGSTOP);
                     execve(comando, commands, 0);
                 }
-                else if (skip == 0) {
+                else if (intervalo_preenchido == 0) {
                     //Por ser RT, devemos guardar o pid do processo em cada
                     //segundo que ele deve estar executando.
                     for(i=inicio;i<=fim;i++) {
@@ -189,6 +191,7 @@ int main (int argc, char *argv[])
                     sleep(1);
                 }
                 else {
+                    qtdprogramasLidos--;
                     printf("Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
                     fprintf(fd3, "Tempo de operacao do programa coincide com outro ou intervalo invalido.\nPrograma abortado.\n");
                     sleep(1);
@@ -216,7 +219,7 @@ int main (int argc, char *argv[])
             anterior = vpid[abs(i+59)%60];
             if (vpid[i] != anterior && anterior != -1) {
                 if (waitpid(anterior, 0, 0 | WNOHANG) != 0) {
-                    programasExecutando--;
+                    qtdprogramasLidos--;
                     printf("Processo REAL TIMING de pid %d terminou. Removendo da lista.\n", anterior);
                     fprintf(fd3, "Processo de REAL TIMING pid %d terminou. Removendo da lista.\n", anterior);
                     for(j=abs(i+59)%60;j>=0 && vpid[j] == anterior;j--)
@@ -259,11 +262,16 @@ int main (int argc, char *argv[])
                 i=-1;
                 programasExecutando = 0;
             }
-            //else if (i==59 && programasExecutando == 0)
-            else if(programasExecutando == 0)
+            //Todos os programas terminaram
+            if(qtdprogramasLidos == 0)
             {
                 *flag_escalonador = *flag_escalonador & 0xEF; //1110 1111
                 *flag_escalonador = *flag_escalonador | 0x1;
+                //printf("Entrei no break RT\n");
+                for(int aux = 0;aux < 60; aux++)
+                {
+                    controle_tempo[aux] = FALSE;
+                }
                 break;
                 
             }
@@ -325,10 +333,10 @@ int main (int argc, char *argv[])
                     printf("\nPR Leitura %d feita\n", i+1);
                     fprintf(fd3, "\nPR Leitura %d feita\n", i+1);
                     //Após a leitura da linha, quebra-se a string
-                    //A função breakString deve quebrar os espaços da string,
+                    //A função separaPalavra deve quebrar os espaços da string,
                     //deixando os parâmetros em ordem:
                     //Para Prioridade: [0](nome) [1](prioridade)
-                    linha = breakStringPR(mensagem, &quantidadeParametros);
+                    linha = separaPalavraPR(mensagem, &quantidadeParametros);
                     strcpy(mensagem, VAZIO);
                     //Com a quebra da string, teremos o nome do programa a ser executado
                     //sempre no índice 0
@@ -448,12 +456,12 @@ int main (int argc, char *argv[])
                         }
                         
                         //Após a leitura da linha, quebra-se a string
-                        //A função breakString deve quebrar os espaços da string,
+                        //A função separaPalavra deve quebrar os espaços da string,
                         //deixando os parâmetros em ordem:
                         //Para RR: [0](nome)
                         //Para Prioridade: [0](nome) [1](prioridade)
                         //Para RT: [0](nome) [1](inicio) [2](duração)
-                        linha = breakStringRR(mensagem, &quantidadeParametros);
+                        linha = separaPalavraRR(mensagem, &quantidadeParametros);
                         strcpy(mensagem, VAZIO);
                         printf("nome: %s\n\n", linha[0]);
                         fprintf(fd3, "nome: %s\n\n", linha[0]);
@@ -609,9 +617,8 @@ int main (int argc, char *argv[])
                         printf("%lds\n", segundo_atual);
                     if((0x1 & *flag_escalonador) == 0x0) //Se RT nao acabou entra no if
                     {
-                        //if(ocupado == TRUE)
-                            //printf("---Escalonamento_RT----\n");
-                        //Matar o PR e RR
+                        if (ocupado == TRUE)
+                            //printf("Entrei no Real Timing %x\n", *flag_escalonador);
                         kill(pid2, SIGSTOP);
                         kill(pid3, SIGSTOP);
                         kill(pid1, SIGCONT);
@@ -690,7 +697,7 @@ int words(const char *sentence)
 }
 
 
-char** breakStringRT(char* string, int* n)
+char** separaPalavraRT(char* string, int* n)
 {
   char** linha;
   int i, j=0, k, *tamanhoPalavras;
@@ -760,7 +767,7 @@ char** breakStringRT(char* string, int* n)
 }
 
 
-char** breakStringPR(char* string, int* n)
+char** separaPalavraPR(char* string, int* n)
 {
   char** linha;
   int i, j=0, k, *tamanhoPalavras;
@@ -840,7 +847,7 @@ int compara(const void* a, const void* b)
 }
 
 
-char** breakStringRR(char* string, int* n)
+char** separaPalavraRR(char* string, int* n)
 {
   char** linha;
   int i, j=0, k, *tamanhoPalavras;

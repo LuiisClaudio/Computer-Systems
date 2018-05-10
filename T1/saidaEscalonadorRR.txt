@@ -2,22 +2,10 @@
 RR Leitura 1 feita Exec dorminhoco
 nome: dorminhoco
 
-vpid[0]= 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Pausando processo ROUND-ROBIN de pid 7926
-Continuando processo ROUND-ROBIN de pid 7926
-Processo ROUND-ROBIN de pid 7926 terminou
+vpid[0]= 12976
+Continuando processo ROUND-ROBIN de pid 12976
+Pausando processo ROUND-ROBIN de pid 12976
+Continuando processo ROUND-ROBIN de pid 12976
+Pausando processo ROUND-ROBIN de pid 12976
+Continuando processo ROUND-ROBIN de pid 12976
+Processo ROUND-ROBIN de pid 12976 terminou

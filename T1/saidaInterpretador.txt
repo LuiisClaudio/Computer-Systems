@@ -2,6 +2,10 @@ Comando obtido. Comando:
 Exec dorminhoco I=0 D=10
 Aguardando o escalonador limpar o comando
 Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
+Aguardando o escalonador limpar o comando
 Comando obtido. Comando:
 Exec durabastante I=40 D=15
 Aguardando o escalonador limpar o comando

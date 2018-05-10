@@ -5,7 +5,7 @@ int main(void)
 {
   int numero=0, i;
   
-  for(i=0;i<100;i++) {
+  for(i=0;i<50;i++) {
     scanf(" %d", &numero);
     if (numero != 0) {
       usleep(numero*1000);
